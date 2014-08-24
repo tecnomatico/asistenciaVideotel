@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Asistencia" table="asistencia" catalog="asistencia_videotel">
+        <id name="aid" type="int">
+            <column name="AID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="empleado" class="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" fetch="select">
+            <column name="EID" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="mcontador" type="java.lang.Byte">
+            <column name="MCONTADOR" />
+        </property>
+        <property name="nturno" type="java.lang.Byte">
+            <column name="NTURNO" />
+        </property>
+        <set name="marcacions" inverse="true">
+            <key>
+                <column name="AID" />
+            </key>
+            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Marcacion" />
+        </set>
+    </class>
+</hibernate-mapping>

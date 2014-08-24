@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Sector" table="sector" catalog="asistencia_videotel">
+        <id name="sid" type="byte">
+            <column name="SID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="empresa" class="co.tecnoamti.java.asistenciavideotel.dominio.Empresa" fetch="select">
+            <column name="ID" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="100" />
+        </property>
+        <set name="empleados" inverse="true">
+            <key>
+                <column name="SID" />
+            </key>
+            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" />
+        </set>
+    </class>
+</hibernate-mapping>

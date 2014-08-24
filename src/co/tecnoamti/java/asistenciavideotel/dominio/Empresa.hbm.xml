@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Empresa" table="empresa" catalog="asistencia_videotel">
+        <id name="id" type="byte">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="100" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="TELEFONO" length="20" />
+        </property>
+        <property name="domicilio" type="string">
+            <column name="DOMICILIO" length="100" />
+        </property>
+        <property name="logo" type="binary">
+            <column name="LOGO" />
+        </property>
+        <set name="sectors" inverse="true">
+            <key>
+                <column name="ID" />
+            </key>
+            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Sector" />
+        </set>
+    </class>
+</hibernate-mapping>

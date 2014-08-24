@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Comentario" table="comentario" catalog="asistencia_videotel">
+        <id name="cid" type="byte">
+            <column name="CID" />
+            <generator class="assigned" />
+        </id>
+        <property name="sid" type="java.lang.Byte">
+            <column name="SID" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

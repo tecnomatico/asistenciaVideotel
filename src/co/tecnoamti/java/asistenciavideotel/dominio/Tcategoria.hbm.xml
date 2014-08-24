@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Tcategoria" table="tcategoria" catalog="asistencia_videotel">
+        <id name="tcid" type="byte">
+            <column name="TCID" />
+            <generator class="assigned" />
+        </id>
+        <property name="descripcion" type="java.lang.Byte">
+            <column name="DESCRIPCION" />
+        </property>
+        <set name="turnos" inverse="true">
+            <key>
+                <column name="TCID" />
+            </key>
+            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Turno" />
+        </set>
+    </class>
+</hibernate-mapping>

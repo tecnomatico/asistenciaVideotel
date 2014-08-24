@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Turno" table="turno" catalog="asistencia_videotel">
+        <id name="tid" type="byte">
+            <column name="TID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tcategoria" class="co.tecnoamti.java.asistenciavideotel.dominio.Tcategoria" fetch="select">
+            <column name="TCID" />
+        </many-to-one>
+        <property name="entrada" type="date">
+            <column name="ENTRADA" length="10" />
+        </property>
+        <property name="salida" type="date">
+            <column name="SALIDA" length="10" />
+        </property>
+        <property name="dias" type="string">
+            <column name="DIAS" length="8" />
+        </property>
+        <property name="etolerancia" type="date">
+            <column name="ETOLERANCIA" length="10" />
+        </property>
+        <property name="stolerancia" type="date">
+            <column name="STOLERANCIA" length="10" />
+        </property>
+        <property name="nturno" type="java.lang.Byte">
+            <column name="NTURNO" />
+        </property>
+        <set name="horarios" inverse="true">
+            <key>
+                <column name="TID" />
+            </key>
+            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Horario" />
+        </set>
+    </class>
+</hibernate-mapping>
