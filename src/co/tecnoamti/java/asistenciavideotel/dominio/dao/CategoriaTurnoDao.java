@@ -4,10 +4,16 @@
  */
 package co.tecnoamti.java.asistenciavideotel.dominio.dao;
 
+import co.tecnoamti.java.asistenciavideotel.dominio.Tcategoria;
+
 /**
  *
  * @author joel
  */
 public interface CategoriaTurnoDao {
-    
+  java.util.List<Tcategoria> listarTcategoria();
+  public void addTcategoria(Tcategoria a);
+  public void deleteTcategoria(Tcategoria a);
+  public void upDateTcategoria(Tcategoria a);
+  public Tcategoria getTcategoria(int idTcategoria);
 }

@@ -4,8 +4,8 @@
  */
 package co.tecnoamti.java.asistenciavideotel.dominio.dao.imp;
 
-import co.tecnoamti.java.asistenciavideotel.dominio.Empleado;
-import co.tecnoamti.java.asistenciavideotel.dominio.dao.EmpleadoDao;
+import co.tecnoamti.java.asistenciavideotel.dominio.dao.MarcacionDao;
+import co.tecnoamti.java.asistenciavideotel.vista.marcacion.Marcacion;
 import co.tecnomati.java.asistenciavideotel.hibernateUtil.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +16,20 @@ import org.hibernate.Session;
  *
  * @author joel
  */
-public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
+public class MarcacionDaoImp extends HibernateUtil implements MarcacionDao{
 
     @Override
-    public List<Empleado> listarEmpleado() {
+    public List<Marcacion> listarMarcacion() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Empleado.class);
-        ArrayList<Empleado> empleado = (ArrayList<Empleado>)criteria.list();
+        Criteria criteria = session.createCriteria(Marcacion.class);
+        ArrayList<Marcacion> marcacion = (ArrayList<Marcacion>)criteria.list();
         session.close();
-        return empleado; 
+        return marcacion; 
     }
 
     @Override
-    public void addEmpleado(Empleado a) {
+    public void addMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(a);
@@ -37,7 +37,7 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
         session.close();    }
 
     @Override
-    public void deleteEmpleado(Empleado a) {
+    public void deleteMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.delete(a);
@@ -46,7 +46,7 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
     }
 
     @Override
-    public void upDateEmpleado(Empleado a) {
+    public void upDateMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.update(a);
@@ -55,13 +55,13 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
     }
 
     @Override
-    public Empleado getEmpleado(int idEmpleado) {
+    public Marcacion getMarcacion(int idMarcacion) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Empleado a = (Empleado) session.get(Empleado.class,idEmpleado);
+        Marcacion a = (Marcacion) session.get(Marcacion.class,idMarcacion);
         session.getTransaction().commit();
         session.close();
         return a;
     }
-    
+ 
 }

@@ -4,8 +4,8 @@
  */
 package co.tecnoamti.java.asistenciavideotel.dominio.dao.imp;
 
-import co.tecnoamti.java.asistenciavideotel.dominio.Empleado;
-import co.tecnoamti.java.asistenciavideotel.dominio.dao.EmpleadoDao;
+import co.tecnoamti.java.asistenciavideotel.dominio.Sector;
+import co.tecnoamti.java.asistenciavideotel.dominio.dao.SectorDao;
 import co.tecnomati.java.asistenciavideotel.hibernateUtil.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +16,27 @@ import org.hibernate.Session;
  *
  * @author joel
  */
-public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
+public class SectorDaoImp extends  HibernateUtil implements SectorDao {
 
     @Override
-    public List<Empleado> listarEmpleado() {
+    public List<Sector> listarSector() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Empleado.class);
-        ArrayList<Empleado> empleado = (ArrayList<Empleado>)criteria.list();
+        Criteria criteria = session.createCriteria(Sector.class);
+        ArrayList<Sector> sector = (ArrayList<Sector>)criteria.list();
         session.close();
-        return empleado; 
-    }
+        return sector;     }
 
     @Override
-    public void addEmpleado(Empleado a) {
+    public void addSector(Sector a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(a);
         session.getTransaction().commit();
-        session.close();    }
+        session.close();     }
 
     @Override
-    public void deleteEmpleado(Empleado a) {
+    public void deleteSector(Sector a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.delete(a);
@@ -46,7 +45,7 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
     }
 
     @Override
-    public void upDateEmpleado(Empleado a) {
+    public void upDateSector(Sector a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.update(a);
@@ -55,13 +54,12 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao{
     }
 
     @Override
-    public Empleado getEmpleado(int idEmpleado) {
+    public Sector getSector(int idSector) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Empleado a = (Empleado) session.get(Empleado.class,idEmpleado);
+        Sector a = (Sector) session.get(Sector.class,idSector);
         session.getTransaction().commit();
         session.close();
-        return a;
-    }
+        return a;    }
     
 }
