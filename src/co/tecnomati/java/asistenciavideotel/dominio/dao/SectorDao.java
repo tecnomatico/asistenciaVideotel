@@ -16,4 +16,5 @@ public interface SectorDao {
   public void deleteSector(Sector a);
   public void upDateSector(Sector a);
   public Sector getSector(int idSector);
+  public Sector getSector(String descripcion);
 }

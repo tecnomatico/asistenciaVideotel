@@ -5,6 +5,7 @@
 package co.tecnomati.java.asistenciavideotel.dominio.dao;
 
 import co.tecnomati.java.asistenciavideotel.dominio.Horario;
+import java.util.List;
 
 /**
  *
@@ -12,8 +13,9 @@ import co.tecnomati.java.asistenciavideotel.dominio.Horario;
  */
 public interface HorarioDao {
   java.util.List<Horario> listarHorario();
-  public void addTcategoria(Horario a);
-  public void deleteTcategoria(Horario a);
-  public void upDateTcategoria(Horario a);
-  public Horario getTcategoria(int idHorario);
+  public void addHorario(Horario a);
+  public void deleteHorario(Horario a);
+  public void upDateHorario(Horario a);
+  public Horario getHorario(int idHorario);
+  public List<Horario> listarHorarioOrdenadoXMomento();
 }

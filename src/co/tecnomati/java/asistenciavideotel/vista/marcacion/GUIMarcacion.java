@@ -4,6 +4,16 @@
  */
 package co.tecnomati.java.asistenciavideotel.vista.marcacion;
 
+import co.tecnomati.java.asistenciavideotel.cons.Constantes;
+import co.tecnomati.java.asistenciavideotel.vista.administrador.GUILogin;
+import co.tecnomati.java.asistenciavideotel.vista.diatrabajo.GUIDiaTrabajo;
+import co.tecnomati.java.asistenciavideotel.vista.empleado.GUIEmpleado;
+import co.tecnomati.java.asistenciavideotel.vista.empleado.GUIGestorEmpleado;
+import co.tecnomati.java.asistenciavideotel.vista.empresa.GUIEmpresa;
+import co.tecnomati.java.asistenciavideotel.vista.horario.GUIHorario;
+import co.tecnomati.java.asistenciavideotel.vista.sector.GUIGestorSector;
+import co.tecnomati.java.asistenciavideotel.vista.sector.GUISector;
+
 /**
  *
  * @author joel
@@ -15,6 +25,9 @@ public class GUIMarcacion extends javax.swing.JFrame {
      */
     public GUIMarcacion() {
         initComponents();
+        this.setTitle(Constantes.TITLE_APP);
+        this.setLocationRelativeTo(this);
+        this.setVisible(true);
     }
 
     /**
@@ -26,29 +39,57 @@ public class GUIMarcacion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        panelPadre = new javax.swing.JPanel();
+        panelInicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jPanel1 = new javax.swing.JPanel();
+        panelCam = new javax.swing.JPanel();
         clockDigital1 = new org.edisoncor.gui.varios.ClockDigital();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        mnuInicio = new javax.swing.JMenu();
+        mnuItmIniciarSesion = new javax.swing.JMenuItem();
+        mnuItmCerrarSesion = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        mnuItmSalir = new javax.swing.JMenuItem();
+        mnuEmpleado = new javax.swing.JMenu();
+        mnuItmAltaEmpleado = new javax.swing.JMenuItem();
+        mnuItmGestorEmpleado = new javax.swing.JMenuItem();
+        mnuItmEmpresa = new javax.swing.JMenu();
+        mnuItmConfigEmpresa = new javax.swing.JMenuItem();
+        mnuItmGestorSector = new javax.swing.JMenuItem();
+        mnuHorario = new javax.swing.JMenu();
+        mnuItmHorario = new javax.swing.JMenuItem();
+        mnuItmDiaTrabajo = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        mnuItmAcerca = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenu3.setText("jMenu3");
+
+        jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Marte 8 de agosto de 2014");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelCam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelCamLayout = new javax.swing.GroupLayout(panelCam);
+        panelCam.setLayout(panelCamLayout);
+        panelCamLayout.setHorizontalGroup(
+            panelCamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 398, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelCamLayout.setVerticalGroup(
+            panelCamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 398, Short.MAX_VALUE)
         );
 
@@ -67,54 +108,189 @@ public class GUIMarcacion extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Sistema de Control de Asistencia ");
 
+        javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
+        panelInicio.setLayout(panelInicioLayout);
+        panelInicioLayout.setHorizontalGroup(
+            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelInicioLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(clockDigital1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        panelInicioLayout.setVerticalGroup(
+            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(82, 82, 82)
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelPadreLayout = new javax.swing.GroupLayout(panelPadre);
+        panelPadre.setLayout(panelPadreLayout);
+        panelPadreLayout.setHorizontalGroup(
+            panelPadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPadreLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelPadreLayout.setVerticalGroup(
+            panelPadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPadreLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mnuInicio.setText("Inicio");
+
+        mnuItmIniciarSesion.setText("Iniciar Sesion");
+        mnuItmIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmIniciarSesionActionPerformed(evt);
+            }
+        });
+        mnuInicio.add(mnuItmIniciarSesion);
+
+        mnuItmCerrarSesion.setText("Cerrar Sesion");
+        mnuItmCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmCerrarSesionActionPerformed(evt);
+            }
+        });
+        mnuInicio.add(mnuItmCerrarSesion);
+        mnuInicio.add(jSeparator2);
+
+        mnuItmSalir.setText("Salir");
+        mnuItmSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmSalirActionPerformed(evt);
+            }
+        });
+        mnuInicio.add(mnuItmSalir);
+
+        jMenuBar1.add(mnuInicio);
+
+        mnuEmpleado.setText("Empleado");
+
+        mnuItmAltaEmpleado.setText("Alta Empleado");
+        mnuItmAltaEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmAltaEmpleadoActionPerformed(evt);
+            }
+        });
+        mnuEmpleado.add(mnuItmAltaEmpleado);
+
+        mnuItmGestorEmpleado.setText("Gestor Empleado");
+        mnuItmGestorEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmGestorEmpleadoActionPerformed(evt);
+            }
+        });
+        mnuEmpleado.add(mnuItmGestorEmpleado);
+
+        jMenuBar1.add(mnuEmpleado);
+
+        mnuItmEmpresa.setText("Empresa");
+
+        mnuItmConfigEmpresa.setText("Configuracion Empresa");
+        mnuItmConfigEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmConfigEmpresaActionPerformed(evt);
+            }
+        });
+        mnuItmEmpresa.add(mnuItmConfigEmpresa);
+
+        mnuItmGestorSector.setText("Sectores de Empresa");
+        mnuItmGestorSector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmGestorSectorActionPerformed(evt);
+            }
+        });
+        mnuItmEmpresa.add(mnuItmGestorSector);
+
+        jMenuBar1.add(mnuItmEmpresa);
+
+        mnuHorario.setText("Horario");
+
+        mnuItmHorario.setText("Horarios");
+        mnuItmHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmHorarioActionPerformed(evt);
+            }
+        });
+        mnuHorario.add(mnuItmHorario);
+
+        mnuItmDiaTrabajo.setText("Dia de Trabajo");
+        mnuItmDiaTrabajo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmDiaTrabajoActionPerformed(evt);
+            }
+        });
+        mnuHorario.add(mnuItmDiaTrabajo);
+
+        jMenuBar1.add(mnuHorario);
+
+        jMenu7.setText("Acerca");
+
+        mnuItmAcerca.setText("Acerca");
+        mnuItmAcerca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItmAcercaActionPerformed(evt);
+            }
+        });
+        jMenu7.add(mnuItmAcerca);
+
+        jMenuBar1.add(jMenu7);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 83, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(panelPadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -123,6 +299,56 @@ public class GUIMarcacion extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void mnuItmAltaEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmAltaEmpleadoActionPerformed
+        new GUIEmpleado(this, true);
+    }//GEN-LAST:event_mnuItmAltaEmpleadoActionPerformed
+
+    private void mnuItmConfigEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmConfigEmpresaActionPerformed
+        new GUIEmpresa(this, true);
+    }//GEN-LAST:event_mnuItmConfigEmpresaActionPerformed
+
+    private void mnuItmGestorSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmGestorSectorActionPerformed
+        new GUIGestorSector(this, true);
+    }//GEN-LAST:event_mnuItmGestorSectorActionPerformed
+
+    private void mnuItmGestorEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmGestorEmpleadoActionPerformed
+        new GUIGestorEmpleado(this, true);
+    }//GEN-LAST:event_mnuItmGestorEmpleadoActionPerformed
+
+    private void mnuItmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_mnuItmSalirActionPerformed
+
+    private void mnuItmIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmIniciarSesionActionPerformed
+        GUILogin login = new GUILogin(this, true);
+
+        if (login.isValidoAdministrador()) {
+            setconfigurarcionMenuAdministrador(true);
+            setPaneldeControl(false);
+
+
+
+        }
+    }//GEN-LAST:event_mnuItmIniciarSesionActionPerformed
+
+    private void mnuItmAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmAcercaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuItmAcercaActionPerformed
+
+    private void mnuItmCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmCerrarSesionActionPerformed
+        setconfigurarcionMenuAdministrador(false);
+        setPaneldeControl(true);
+
+    }//GEN-LAST:event_mnuItmCerrarSesionActionPerformed
+
+    private void mnuItmHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmHorarioActionPerformed
+      new GUIHorario(this, true);
+    }//GEN-LAST:event_mnuItmHorarioActionPerformed
+
+    private void mnuItmDiaTrabajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmDiaTrabajoActionPerformed
+       new GUIDiaTrabajo(this, true);
+    }//GEN-LAST:event_mnuItmDiaTrabajoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,8 +389,63 @@ public class GUIMarcacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenu mnuEmpleado;
+    private javax.swing.JMenu mnuHorario;
+    private javax.swing.JMenu mnuInicio;
+    private javax.swing.JMenuItem mnuItmAcerca;
+    private javax.swing.JMenuItem mnuItmAltaEmpleado;
+    private javax.swing.JMenuItem mnuItmCerrarSesion;
+    private javax.swing.JMenuItem mnuItmConfigEmpresa;
+    private javax.swing.JMenuItem mnuItmDiaTrabajo;
+    private javax.swing.JMenu mnuItmEmpresa;
+    private javax.swing.JMenuItem mnuItmGestorEmpleado;
+    private javax.swing.JMenuItem mnuItmGestorSector;
+    private javax.swing.JMenuItem mnuItmHorario;
+    private javax.swing.JMenuItem mnuItmIniciarSesion;
+    private javax.swing.JMenuItem mnuItmSalir;
+    private javax.swing.JPanel panelCam;
+    private javax.swing.JPanel panelInicio;
+    private javax.swing.JPanel panelPadre;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * 
+     * Activa o desactiva de acuerdo al parametro qeu se el envie las opciones de la barra de menu 
+     * Esto es para activar o desactivar las opciones de Administrador
+     * @param b 
+     */
+    private void setconfigurarcionMenuAdministrador(boolean b) {
+
+        // lo que siempre tienen que estar visibles
+        mnuItmAcerca.setVisible(true);
+        mnuItmSalir.setVisible(true);
+
+        // mnu
+        mnuHorario.setVisible(true);
+        mnuEmpleado.setVisible(b);
+
+
+        //mnu item
+        mnuItmIniciarSesion.setVisible(!b);
+        mnuItmCerrarSesion.setVisible(b);
+        // mnuItmInciarControl.setVisible(b);
+        mnuItmSalir.setVisible(true);
+
+    }
+
+/**
+ *  Oculta o no el panel donde el empleado realiza sus maraciones.
+ * @param b 
+ */
+    private void setPaneldeControl(boolean b) {
+        panelInicio.setVisible(b);
+    }
 }

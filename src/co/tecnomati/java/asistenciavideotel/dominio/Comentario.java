@@ -1,5 +1,5 @@
-package co.tecnoamti.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+package co.tecnomati.java.asistenciavideotel.dominio;
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 
@@ -9,35 +9,30 @@ package co.tecnoamti.java.asistenciavideotel.dominio;
 public class Comentario  implements java.io.Serializable {
 
 
-     private byte cid;
-     private Byte sid;
+     private Integer cid;
+     private Integer sid;
      private String descripcion;
 
     public Comentario() {
     }
 
-	
-    public Comentario(byte cid) {
-        this.cid = cid;
-    }
-    public Comentario(byte cid, Byte sid, String descripcion) {
-       this.cid = cid;
+    public Comentario(Integer sid, String descripcion) {
        this.sid = sid;
        this.descripcion = descripcion;
     }
    
-    public byte getCid() {
+    public Integer getCid() {
         return this.cid;
     }
     
-    public void setCid(byte cid) {
+    public void setCid(Integer cid) {
         this.cid = cid;
     }
-    public Byte getSid() {
+    public Integer getSid() {
         return this.sid;
     }
     
-    public void setSid(Byte sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
     }
     public String getDescripcion() {

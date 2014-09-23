@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" table="empleado" catalog="asistencia_videotel">
-        <id name="eid" type="byte">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Empleado" table="empleado" catalog="asistencia_videotel">
+        <id name="eid" type="java.lang.Integer">
             <column name="EID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="sector" class="co.tecnoamti.java.asistenciavideotel.dominio.Sector" fetch="select">
+        <many-to-one name="sector" class="co.tecnomati.java.asistenciavideotel.dominio.Sector" fetch="select">
             <column name="SID" />
         </many-to-one>
         <property name="dni" type="java.lang.Integer">
@@ -35,17 +35,17 @@
         <property name="clave" type="string">
             <column name="CLAVE" length="20" />
         </property>
-        <set name="horarios" inverse="true">
-            <key>
-                <column name="EID" />
-            </key>
-            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Horario" />
-        </set>
         <set name="asistencias" inverse="true">
             <key>
                 <column name="EID" />
             </key>
-            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Asistencia" />
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Asistencia" />
+        </set>
+        <set name="diatrabajos" inverse="true">
+            <key>
+                <column name="EID" />
+            </key>
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Diatrabajo" />
         </set>
     </class>
 </hibernate-mapping>

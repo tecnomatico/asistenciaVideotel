@@ -4,9 +4,7 @@
  */
 package co.tecnomati.java.asistenciavideotel.dominio.dao.imp;
 
-
-import co.tecnomati.java.asistenciavideotel.dominio.Tcategoria;
-import co.tecnomati.java.asistenciavideotel.dominio.dao.CategoriaTurnoDao;
+import co.tecnomati.java.asistenciavideotel.dominio.Diatrabajo;
 import co.tecnomati.java.asistenciavideotel.hibernateUtil.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +15,20 @@ import org.hibernate.Session;
  *
  * @author joel
  */
-public class CategoriaTurnoDaoImp extends HibernateUtil implements CategoriaTurnoDao{
+public class DiaTrabajoDaoImp extends HibernateUtil implements co.tecnomati.java.asistenciavideotel.dominio.dao.DiaTrabajoDao{
 
     @Override
-    public List<Tcategoria> listarTcategoria() {
+    public List<Diatrabajo> listarDiaTrabajo() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Tcategoria.class);
-        ArrayList<Tcategoria> tcategoria = (ArrayList<Tcategoria>)criteria.list();
+        Criteria criteria = session.createCriteria(Diatrabajo.class);
+        ArrayList<Diatrabajo> diatrabajo = (ArrayList<Diatrabajo>)criteria.list();
         session.close();
-        return tcategoria; 
+        return diatrabajo; 
     }
 
     @Override
-    public void addTcategoria(Tcategoria a) {
+    public void addDiatrabajo(Diatrabajo a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(a);
@@ -39,7 +37,7 @@ public class CategoriaTurnoDaoImp extends HibernateUtil implements CategoriaTurn
     }
 
     @Override
-    public void deleteTcategoria(Tcategoria a) {
+    public void deleteDiatrabajo(Diatrabajo a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.delete(a);
@@ -48,7 +46,7 @@ public class CategoriaTurnoDaoImp extends HibernateUtil implements CategoriaTurn
     }
 
     @Override
-    public void upDateTcategoria(Tcategoria a) {
+    public void upDateDiatrabajo(Diatrabajo a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.update(a);
@@ -57,13 +55,31 @@ public class CategoriaTurnoDaoImp extends HibernateUtil implements CategoriaTurn
     }
 
     @Override
-    public Tcategoria getTcategoria(int idTcategoria) {
+    public Diatrabajo getDiatrabajo(int idDiatrabajo) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Tcategoria a = (Tcategoria) session.get(Tcategoria.class,idTcategoria);
+        Diatrabajo a = (Diatrabajo) session.get(Diatrabajo.class,idDiatrabajo);
         session.getTransaction().commit();
         session.close();
-        return a;   
+        return a;
     }
+    
+    
+    @Override
+    public Diatrabajo getDiatrabajo_XDia(int indexDia, int idEmpleado) {
+        Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Diatrabajo.class);
+
+        Diatrabajo diatrabajo = (Diatrabajo) session.createQuery("FROM Diatrabajo dt\n"
+                + "join fetch dt.empleado as e\n"
+                + "where dt.did='" + indexDia + "' and e.eid>='" + idEmpleado + "'"
+                ).uniqueResult();
+        session.close();
+        return diatrabajo;
+    }
+    
+    
     
 }

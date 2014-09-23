@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Diatrabajo" table="diatrabajo" catalog="asistencia_videotel">
+        <id name="dtid" type="java.lang.Integer">
+            <column name="DTID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empleado" class="co.tecnomati.java.asistenciavideotel.dominio.Empleado" fetch="select">
+            <column name="EID" />
+        </many-to-one>
+        <property name="did" type="java.lang.Integer">
+            <column name="DID" />
+        </property>
+        <property name="nturno" type="java.lang.Byte">
+            <column name="NTURNO" />
+        </property>
+        <set name="turnos" inverse="true">
+            <key>
+                <column name="DTID" />
+            </key>
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Turno" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Empresa  implements java.io.Serializable {
 
 
-     private byte id;
+     private Integer id;
      private String nombre;
      private String telefono;
      private String domicilio;
@@ -21,12 +21,7 @@ public class Empresa  implements java.io.Serializable {
     public Empresa() {
     }
 
-	
-    public Empresa(byte id) {
-        this.id = id;
-    }
-    public Empresa(byte id, String nombre, String telefono, String domicilio, byte[] logo, Set<Sector> sectors) {
-       this.id = id;
+    public Empresa(String nombre, String telefono, String domicilio, byte[] logo, Set<Sector> sectors) {
        this.nombre = nombre;
        this.telefono = telefono;
        this.domicilio = domicilio;
@@ -34,11 +29,11 @@ public class Empresa  implements java.io.Serializable {
        this.sectors = sectors;
     }
    
-    public byte getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(byte id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getNombre() {

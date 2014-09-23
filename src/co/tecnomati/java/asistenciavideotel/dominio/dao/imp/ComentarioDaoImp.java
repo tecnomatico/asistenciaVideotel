@@ -4,7 +4,8 @@
  */
 package co.tecnomati.java.asistenciavideotel.dominio.dao.imp;
 
-import co.tecnoamti.java.asistenciavideotel.dominio.Comentario;
+
+import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
 import co.tecnomati.java.asistenciavideotel.dominio.dao.ComentarioDao;
 import co.tecnomati.java.asistenciavideotel.hibernateUtil.HibernateUtil;
 import java.util.ArrayList;

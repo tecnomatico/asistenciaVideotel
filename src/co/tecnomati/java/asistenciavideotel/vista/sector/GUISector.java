@@ -2,7 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.tecnoamti.java.asistenciavideotel.vista.sector;
+package co.tecnomati.java.asistenciavideotel.vista.sector;
+
+import co.tecnomati.java.asistenciavideotel.cons.Constantes;
+import co.tecnomati.java.asistenciavideotel.dominio.Sector;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.SectorDao;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.SectorDaoImp;
+import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,12 +17,38 @@ package co.tecnoamti.java.asistenciavideotel.vista.sector;
  */
 public class GUISector extends javax.swing.JDialog {
 
-    /**
-     * Creates new form GUISector
-     */
+    String paqueteImagen = "/co/tecnomati/java/asistenciavideotel/imagen/";
+    Sector sector = null;
+    boolean agregado = false; // este es una variable que se pone en verdadero si se guardo con exito los datos 
+    private boolean modificar = false;
+    boolean eliminado = false;
+    javax.swing.ImageIcon iconoGuardar = new javax.swing.ImageIcon(getClass().getResource(paqueteImagen + "Guardar.jpg"));
+    javax.swing.ImageIcon iconoModificar = new javax.swing.ImageIcon(getClass().getResource(paqueteImagen + "Modificar.png"));
+
     public GUISector(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        btnEliminar.setVisible(false);
+
+        this.setTitle(Constantes.TITLE_EDITAR_SECTOR);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
+    }
+
+    public GUISector(java.awt.Frame parent, boolean modal, Sector sector) {
+
+        super(parent, modal);
+        initComponents();
+        this.sector = sector;
+        // se indica que se utiliza este formulario para modificar datos
+        modificar = true;
+        this.setTitle(Constantes.TITLE_EDITAR_SECTOR);
+        setDatos(sector);
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /**
@@ -28,20 +61,35 @@ public class GUISector extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Descripcion");
 
-        jButton1.setText("Cancelar");
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Eliminar");
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Guardar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,14 +101,14 @@ public class GUISector extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnCancelar)
                         .addGap(53, 53, 53)
-                        .addComponent(jButton2)
+                        .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                        .addComponent(btnGuardar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -69,17 +117,53 @@ public class GUISector extends javax.swing.JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnGuardar))
                 .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        SectorDao sectorDAO = new SectorDaoImp();
+        if (!modificar) {
+            //si se ingresa un nueva persona
+            sector = new Sector();
+        }
+        sector.setDescripcion(txtDescripcion.getText());
+
+        if (modificar) {
+            sectorDAO.upDateSector(sector);
+        } else {
+            sectorDAO.addSector(sector);
+        }
+        setAgregado(true);
+        new MiJoptionPane().mensajeInformacionAltaOK(this);
+        this.dispose();
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        //  int opc = JOptionPane.showConfirmDialog(null,"Esta seguro de Eliminar el Concepto: "+sector.getDescripcion(), "ELIMINAR CONCEPTO", JOptionPane.YES_NO_OPTION);
+        int opc = new MiJoptionPane().confiramacionMensajeEliminar(this, "Sector", sector.getDescripcion());
+        if (opc == JOptionPane.YES_OPTION) {
+            new SectorDaoImp().deleteSector(sector);
+            new MiJoptionPane().mensajeInformacionAtualizacionOK(null);
+            setEliminado(true);
+            this.dispose();
+
+            // configuarar botones luego de eliminar
+        }
+               }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,10 +207,43 @@ public class GUISector extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtDescripcion;
     // End of variables declaration//GEN-END:variables
+
+    private void setDatos(Sector sector) {
+        txtDescripcion.setText(sector.getDescripcion());
+
+    }
+
+    public void getDatos() {
+        sector.setDescripcion(txtDescripcion.getText());
+    }
+
+    public boolean isAgregado() {
+        return agregado;
+    }
+
+    public void setAgregado(boolean agregado) {
+        this.agregado = agregado;
+    }
+
+    public boolean isModificar() {
+        return modificar;
+    }
+
+    public void setModificar(boolean modificar) {
+        this.modificar = modificar;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Sector" table="sector" catalog="asistencia_videotel">
-        <id name="sid" type="byte">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Sector" table="sector" catalog="asistencia_videotel">
+        <id name="sid" type="java.lang.Integer">
             <column name="SID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="empresa" class="co.tecnoamti.java.asistenciavideotel.dominio.Empresa" fetch="select">
+        <many-to-one name="empresa" class="co.tecnomati.java.asistenciavideotel.dominio.Empresa" fetch="select">
             <column name="ID" />
         </many-to-one>
         <property name="descripcion" type="string">
@@ -18,7 +18,7 @@
             <key>
                 <column name="SID" />
             </key>
-            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" />
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Empleado" />
         </set>
     </class>
 </hibernate-mapping>

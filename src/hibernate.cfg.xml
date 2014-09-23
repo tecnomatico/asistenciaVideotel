@@ -5,16 +5,16 @@
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/asistencia_videotel?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">joelpelaezz</property>
-    <property name="hibernate.connection.password">joel1807</property>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Asistencia.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Sector.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Tcategoria.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Turno.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Comentario.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Empleado.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Empresa.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Horario.hbm.xml"/>
-    <mapping resource="co/tecnoamti/java/asistenciavideotel/dominio/Marcacion.hbm.xml"/>
+    <property name="hibernate.connection.username">tecnomatico</property>
+    <property name="hibernate.connection.password">tecnojava2013</property>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Horario.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Empleado.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Turno.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Sector.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Asistencia.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Marcacion.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Diatrabajo.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Empresa.hbm.xml"/>
+    <mapping resource="co/tecnomati/java/asistenciavideotel/dominio/Comentario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

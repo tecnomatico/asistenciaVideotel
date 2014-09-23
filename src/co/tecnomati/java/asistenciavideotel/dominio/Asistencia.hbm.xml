@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Asistencia" table="asistencia" catalog="asistencia_videotel">
-        <id name="aid" type="int">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Asistencia" table="asistencia" catalog="asistencia_videotel">
+        <id name="aid" type="java.lang.Integer">
             <column name="AID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="empleado" class="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" fetch="select">
+        <many-to-one name="empleado" class="co.tecnomati.java.asistenciavideotel.dominio.Empleado" fetch="select">
             <column name="EID" />
         </many-to-one>
         <property name="fecha" type="date">
@@ -24,7 +24,7 @@
             <key>
                 <column name="AID" />
             </key>
-            <one-to-many class="co.tecnoamti.java.asistenciavideotel.dominio.Marcacion" />
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Marcacion" />
         </set>
     </class>
 </hibernate-mapping>

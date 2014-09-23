@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Asistencia  implements java.io.Serializable {
 
 
-     private int aid;
+     private Integer aid;
      private Empleado empleado;
      private Date fecha;
      private Byte mcontador;
@@ -22,12 +22,7 @@ public class Asistencia  implements java.io.Serializable {
     public Asistencia() {
     }
 
-	
-    public Asistencia(int aid) {
-        this.aid = aid;
-    }
-    public Asistencia(int aid, Empleado empleado, Date fecha, Byte mcontador, Byte nturno, Set<Marcacion> marcacions) {
-       this.aid = aid;
+    public Asistencia(Empleado empleado, Date fecha, Byte mcontador, Byte nturno, Set<Marcacion> marcacions) {
        this.empleado = empleado;
        this.fecha = fecha;
        this.mcontador = mcontador;
@@ -35,11 +30,11 @@ public class Asistencia  implements java.io.Serializable {
        this.marcacions = marcacions;
     }
    
-    public int getAid() {
+    public Integer getAid() {
         return this.aid;
     }
     
-    public void setAid(int aid) {
+    public void setAid(Integer aid) {
         this.aid = aid;
     }
     public Empleado getEmpleado() {

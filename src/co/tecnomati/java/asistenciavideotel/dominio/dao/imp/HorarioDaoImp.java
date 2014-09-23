@@ -29,7 +29,7 @@ public class HorarioDaoImp extends HibernateUtil implements HorarioDao{
     }
 
     @Override
-    public void addTcategoria(Horario a) {
+    public void addHorario(Horario a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(a);
@@ -38,7 +38,7 @@ public class HorarioDaoImp extends HibernateUtil implements HorarioDao{
     
 
     @Override
-    public void deleteTcategoria(Horario a) {
+    public void deleteHorario(Horario a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.delete(a);
@@ -47,7 +47,7 @@ public class HorarioDaoImp extends HibernateUtil implements HorarioDao{
     }
 
     @Override
-    public void upDateTcategoria(Horario a) {
+    public void upDateHorario(Horario a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.update(a);
@@ -56,7 +56,7 @@ public class HorarioDaoImp extends HibernateUtil implements HorarioDao{
     }
 
     @Override
-    public Horario getTcategoria(int idHorario) {
+    public Horario getHorario(int idHorario) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         Horario a = (Horario) session.get(Horario.class,idHorario);
@@ -65,4 +65,14 @@ public class HorarioDaoImp extends HibernateUtil implements HorarioDao{
         return a;
     }
     
+     @Override
+    public List<Horario> listarHorarioOrdenadoXMomento() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Horario.class);
+        ArrayList<Horario> comprobante = (ArrayList<Horario>) session.createQuery("from Horario h \n"
+                      + "order by h.etihorario asc and h.entrada asc").list();
+        session.close();
+        return comprobante;
+    }
 }

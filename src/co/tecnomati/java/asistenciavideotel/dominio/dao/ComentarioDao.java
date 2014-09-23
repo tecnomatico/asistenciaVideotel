@@ -4,7 +4,7 @@
  */
 package co.tecnomati.java.asistenciavideotel.dominio.dao;
 
-import co.tecnoamti.java.asistenciavideotel.dominio.Comentario;
+import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
 
 /**
  *

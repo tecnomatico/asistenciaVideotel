@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Empleado  implements java.io.Serializable {
 
 
-     private byte eid;
+     private Integer eid;
      private Sector sector;
      private Integer dni;
      private String telefono;
@@ -21,18 +21,13 @@ public class Empleado  implements java.io.Serializable {
      private Boolean estado;
      private Boolean administrador;
      private String clave;
-     private Set<Horario> horarios = new HashSet<Horario>(0);
      private Set<Asistencia> asistencias = new HashSet<Asistencia>(0);
+     private Set<Diatrabajo> diatrabajos = new HashSet<Diatrabajo>(0);
 
     public Empleado() {
     }
 
-	
-    public Empleado(byte eid) {
-        this.eid = eid;
-    }
-    public Empleado(byte eid, Sector sector, Integer dni, String telefono, String apellido, String nombre, byte[] foto, Boolean estado, Boolean administrador, String clave, Set<Horario> horarios, Set<Asistencia> asistencias) {
-       this.eid = eid;
+    public Empleado(Sector sector, Integer dni, String telefono, String apellido, String nombre, byte[] foto, Boolean estado, Boolean administrador, String clave, Set<Asistencia> asistencias, Set<Diatrabajo> diatrabajos) {
        this.sector = sector;
        this.dni = dni;
        this.telefono = telefono;
@@ -42,15 +37,15 @@ public class Empleado  implements java.io.Serializable {
        this.estado = estado;
        this.administrador = administrador;
        this.clave = clave;
-       this.horarios = horarios;
        this.asistencias = asistencias;
+       this.diatrabajos = diatrabajos;
     }
    
-    public byte getEid() {
+    public Integer getEid() {
         return this.eid;
     }
     
-    public void setEid(byte eid) {
+    public void setEid(Integer eid) {
         this.eid = eid;
     }
     public Sector getSector() {
@@ -116,19 +111,19 @@ public class Empleado  implements java.io.Serializable {
     public void setClave(String clave) {
         this.clave = clave;
     }
-    public Set<Horario> getHorarios() {
-        return this.horarios;
-    }
-    
-    public void setHorarios(Set<Horario> horarios) {
-        this.horarios = horarios;
-    }
     public Set<Asistencia> getAsistencias() {
         return this.asistencias;
     }
     
     public void setAsistencias(Set<Asistencia> asistencias) {
         this.asistencias = asistencias;
+    }
+    public Set<Diatrabajo> getDiatrabajos() {
+        return this.diatrabajos;
+    }
+    
+    public void setDiatrabajos(Set<Diatrabajo> diatrabajos) {
+        this.diatrabajos = diatrabajos;
     }
 
 

@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Sector  implements java.io.Serializable {
 
 
-     private byte sid;
+     private Integer sid;
      private Empresa empresa;
      private String descripcion;
      private Set<Empleado> empleados = new HashSet<Empleado>(0);
@@ -19,22 +19,17 @@ public class Sector  implements java.io.Serializable {
     public Sector() {
     }
 
-	
-    public Sector(byte sid) {
-        this.sid = sid;
-    }
-    public Sector(byte sid, Empresa empresa, String descripcion, Set<Empleado> empleados) {
-       this.sid = sid;
+    public Sector(Empresa empresa, String descripcion, Set<Empleado> empleados) {
        this.empresa = empresa;
        this.descripcion = descripcion;
        this.empleados = empleados;
     }
    
-    public byte getSid() {
+    public Integer getSid() {
         return this.sid;
     }
     
-    public void setSid(byte sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
     }
     public Empresa getEmpresa() {

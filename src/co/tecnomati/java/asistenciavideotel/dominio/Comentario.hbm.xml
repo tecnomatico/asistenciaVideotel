@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Comentario" table="comentario" catalog="asistencia_videotel">
-        <id name="cid" type="byte">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Comentario" table="comentario" catalog="asistencia_videotel">
+        <id name="cid" type="java.lang.Integer">
             <column name="CID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <property name="sid" type="java.lang.Byte">
+        <property name="sid" type="java.lang.Integer">
             <column name="SID" />
         </property>
         <property name="descripcion" type="string">

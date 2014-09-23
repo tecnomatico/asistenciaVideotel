@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA
+// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
 public class Marcacion  implements java.io.Serializable {
 
 
-     private int maid;
+     private Integer maid;
      private Asistencia asistencia;
      private Date entrada;
      private Date salida;
@@ -19,16 +19,16 @@ public class Marcacion  implements java.io.Serializable {
      private Boolean modificado;
      private Date fmodificado;
      private Boolean estado;
+     private Boolean etimarcacion;
+     private Byte mintardanzae;
+     private Byte mintardanzas;
+     private Boolean etiextram;
+     private Boolean etiextrad;
 
     public Marcacion() {
     }
 
-	
-    public Marcacion(int maid) {
-        this.maid = maid;
-    }
-    public Marcacion(int maid, Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado) {
-       this.maid = maid;
+    public Marcacion(Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado, Boolean etimarcacion, Byte mintardanzae, Byte mintardanzas, Boolean etiextram, Boolean etiextrad) {
        this.asistencia = asistencia;
        this.entrada = entrada;
        this.salida = salida;
@@ -37,13 +37,18 @@ public class Marcacion  implements java.io.Serializable {
        this.modificado = modificado;
        this.fmodificado = fmodificado;
        this.estado = estado;
+       this.etimarcacion = etimarcacion;
+       this.mintardanzae = mintardanzae;
+       this.mintardanzas = mintardanzas;
+       this.etiextram = etiextram;
+       this.etiextrad = etiextrad;
     }
    
-    public int getMaid() {
+    public Integer getMaid() {
         return this.maid;
     }
     
-    public void setMaid(int maid) {
+    public void setMaid(Integer maid) {
         this.maid = maid;
     }
     public Asistencia getAsistencia() {
@@ -101,6 +106,41 @@ public class Marcacion  implements java.io.Serializable {
     
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+    public Boolean getEtimarcacion() {
+        return this.etimarcacion;
+    }
+    
+    public void setEtimarcacion(Boolean etimarcacion) {
+        this.etimarcacion = etimarcacion;
+    }
+    public Byte getMintardanzae() {
+        return this.mintardanzae;
+    }
+    
+    public void setMintardanzae(Byte mintardanzae) {
+        this.mintardanzae = mintardanzae;
+    }
+    public Byte getMintardanzas() {
+        return this.mintardanzas;
+    }
+    
+    public void setMintardanzas(Byte mintardanzas) {
+        this.mintardanzas = mintardanzas;
+    }
+    public Boolean getEtiextram() {
+        return this.etiextram;
+    }
+    
+    public void setEtiextram(Boolean etiextram) {
+        this.etiextram = etiextram;
+    }
+    public Boolean getEtiextrad() {
+        return this.etiextrad;
+    }
+    
+    public void setEtiextrad(Boolean etiextrad) {
+        this.etiextrad = etiextrad;
     }
 
 

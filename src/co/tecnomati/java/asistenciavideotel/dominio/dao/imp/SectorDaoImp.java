@@ -61,5 +61,19 @@ public class SectorDaoImp extends  HibernateUtil implements SectorDao {
         session.getTransaction().commit();
         session.close();
         return a;    }
+
+    @Override
+    public Sector getSector(String descripcion) {
+        Sector a = null;
+
+        Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        String sql = "from Sector where descripcion ='" + descripcion + "'";
+        session.getTransaction().commit();
+        a = (Sector) session.createQuery(sql).uniqueResult();
+        session.close();
+        return a;
+    }
     
 }

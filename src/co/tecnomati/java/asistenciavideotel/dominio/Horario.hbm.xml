@@ -1,18 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Horario" table="horario" catalog="asistencia_videotel">
-        <id name="hid" type="byte">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Horario" table="horario" catalog="asistencia_videotel">
+        <id name="hid" type="java.lang.Integer">
             <column name="HID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="turno" class="co.tecnoamti.java.asistenciavideotel.dominio.Turno" fetch="select">
-            <column name="TID" />
-        </many-to-one>
-        <many-to-one name="empleado" class="co.tecnoamti.java.asistenciavideotel.dominio.Empleado" fetch="select">
-            <column name="EID" />
-        </many-to-one>
+        <property name="entrada" type="time">
+            <column name="ENTRADA" length="8" />
+        </property>
+        <property name="salida" type="time">
+            <column name="SALIDA" length="8" />
+        </property>
+        <property name="etihorario" type="java.lang.Byte">
+            <column name="ETIHORARIO" />
+        </property>
+        <set name="turnos" inverse="true">
+            <key>
+                <column name="HID" />
+            </key>
+            <one-to-many class="co.tecnomati.java.asistenciavideotel.dominio.Turno" />
+        </set>
     </class>
 </hibernate-mapping>

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2014 18:19:14 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="co.tecnoamti.java.asistenciavideotel.dominio.Marcacion" table="marcacion" catalog="asistencia_videotel">
-        <id name="maid" type="int">
+    <class name="co.tecnomati.java.asistenciavideotel.dominio.Marcacion" table="marcacion" catalog="asistencia_videotel">
+        <id name="maid" type="java.lang.Integer">
             <column name="MAID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="asistencia" class="co.tecnoamti.java.asistenciavideotel.dominio.Asistencia" fetch="select">
+        <many-to-one name="asistencia" class="co.tecnomati.java.asistenciavideotel.dominio.Asistencia" fetch="select">
             <column name="AID" />
         </many-to-one>
         <property name="entrada" type="date">
@@ -31,6 +31,21 @@
         </property>
         <property name="estado" type="java.lang.Boolean">
             <column name="ESTADO" />
+        </property>
+        <property name="etimarcacion" type="java.lang.Boolean">
+            <column name="ETIMARCACION" />
+        </property>
+        <property name="mintardanzae" type="java.lang.Byte">
+            <column name="MINTARDANZAE" />
+        </property>
+        <property name="mintardanzas" type="java.lang.Byte">
+            <column name="MINTARDANZAS" />
+        </property>
+        <property name="etiextram" type="java.lang.Boolean">
+            <column name="ETIEXTRAM" />
+        </property>
+        <property name="etiextrad" type="java.lang.Boolean">
+            <column name="ETIEXTRAD" />
         </property>
     </class>
 </hibernate-mapping>

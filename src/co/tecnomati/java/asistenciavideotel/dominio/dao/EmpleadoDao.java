@@ -5,6 +5,7 @@
 package co.tecnomati.java.asistenciavideotel.dominio.dao;
 
 import co.tecnomati.java.asistenciavideotel.dominio.Empleado;
+import java.util.List;
 
 /**
  *
@@ -12,8 +13,11 @@ import co.tecnomati.java.asistenciavideotel.dominio.Empleado;
  */
 public interface EmpleadoDao {
   java.util.List<Empleado> listarEmpleado();
+  public List<Empleado> listarEmpleadoSector();
   public void addEmpleado(Empleado a);
   public void deleteEmpleado(Empleado a);
   public void upDateEmpleado(Empleado a);
   public Empleado getEmpleado(int idEmpleadoo);
+  public Empleado getEmpleadoAdministrador(int dni,boolean adm,String clave);
+
 }
