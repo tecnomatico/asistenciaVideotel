@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
+// Generated 26/09/2014 17:58:10 by Hibernate Tools 3.2.1.GA
 
 
 

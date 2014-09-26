@@ -43,7 +43,7 @@ public class GUIHorario extends javax.swing.JDialog {
         CargaTabla ct = new CargaTabla();
         ct.start();
         setEnabledComponentes(false);
-        
+         this.setTitle(Constantes.TITLE_NUEVO_HORARIO);
         this.setLocationRelativeTo(this);
         this.setVisible(true);
     }
@@ -63,7 +63,7 @@ public class GUIHorario extends javax.swing.JDialog {
         CargaTabla ct = new CargaTabla();
         ct.start();
         setEnabledComponentes(false);
-        
+         this.setTitle(Constantes.TITLE_NUEVO_HORARIO);
         this.setLocationRelativeTo(this);
         this.setVisible(true);
     }

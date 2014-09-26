@@ -202,7 +202,7 @@ public class GUIGestorSector extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
-        TablaUtil.filtro(tblSector, sorter, txtFiltro);;       
+        TablaUtil.filtro(tblSector, sorter, txtFiltro);       
     }//GEN-LAST:event_txtFiltroKeyPressed
 
     /**

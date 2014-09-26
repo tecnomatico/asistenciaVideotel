@@ -74,7 +74,8 @@ public class DiaTrabajoDaoImp extends HibernateUtil implements co.tecnomati.java
 
         Diatrabajo diatrabajo = (Diatrabajo) session.createQuery("FROM Diatrabajo dt\n"
                 + "join fetch dt.empleado as e\n"
-                + "where dt.did='" + indexDia + "' and e.eid>='" + idEmpleado + "'"
+                + "where dt.did='" + indexDia + "' and e.eid='" + idEmpleado + "'"
+        
                 ).uniqueResult();
         session.close();
         return diatrabajo;

@@ -96,4 +96,19 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao {
         session.close();
         return e;
     }
+     public Empleado getEmpleado_XDni(int dni){
+        Empleado e = null;
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Empleado.class);
+        criteria.add(Restrictions.eq("dni", dni));
+        
+        List<Empleado> lista = (List<Empleado>)criteria.list();
+        if (lista.size()!=0) {
+            e = lista.get(0);
+        }         
+        session.getTransaction().commit();
+        session.close();
+        return e;
+    }
 }

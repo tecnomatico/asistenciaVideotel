@@ -23,6 +23,7 @@ public class Constantes {
          public static final String TITLE_GESTOR_DIA = "GESTOR DE DIAS";
          public static final String TITLE_GESTOR_TURNO = "GESTOR DE TURNOS";
          public static final String TITLE_GESTOR_ASISTENCIA = "GESTOR DE ASISTENCIAS ";
+         public static final String TITLE_GESTOR_COMENTARIO = "GESTOR DE MOTIVOS DE TARDANZAS ";
         
          
          public static final String TITLE_NUEVO_EMPRESA = " REGISTRO DE EMPRESA";
@@ -33,6 +34,7 @@ public class Constantes {
          public static final String TITLE_NUEVO_DIA = " REGISTRO DE DIA";
          public static final String TITLE_NUEVO_TURNO = " REGISTRO DE TURNO";
          public static final String TITLE_NUEVO_ASISTENICA = " REGISTRO DE ASISTENCIA";
+          public static final String TITLE_NUEVO_COMENTARIO= "REGISTRO DE MOTIVOS DE TARDANZAS";
          
          public static final String TITLE_EDITAR_EMPRESA = "EDITAR EMPRESA";
          public static final String TITLE_EDITAR_SECTOR = "EDITAR SECTOR";
@@ -42,7 +44,7 @@ public class Constantes {
          public static final String TITLE_EDITAR_DIA = "EDITAR DIA";
          public static final String TITLE_EDITAR_TURNO = "EDITAR TURNO";
          public static final String TITLE_EDITAR_ASISTENCIA = "EDITAR ASISTENCIA";
-
+        public static final String TITLE_EDITAR_COMENTARIO="EDITAR MOTIVO DE HS EXTRA";
     
          
          public static final String TXT_GUARDAR = "GUARDAR ";
@@ -79,6 +81,8 @@ public class Constantes {
          public static final String TXT_DIATURNO = "DIA TURNO ";
          public static final String TXT_HORARIO = " HORARIO ";
          public static final String TXT_DIA = " DIA ";
+    
+   
          
          
 }

@@ -4,11 +4,29 @@
  */
 package co.tecnomati.java.asistenciavideotel.vista.comentario;
 
+import co.tecnomati.java.asistenciavideotel.cons.Constantes;
+import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
+import co.tecnomati.java.asistenciavideotel.dominio.Sector;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.ComentarioDao;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.SectorDao;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.ComentarioDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.SectorDaoImp;
+import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joel
  */
 public class GUIComentario extends javax.swing.JDialog {
+
+    String paqueteImagen = "/co/tecnomati/java/asistenciavideotel/imagen/";
+    Comentario comentario = null;
+    boolean agregado = false; // este es una variable que se pone en verdadero si se guardo con exito los datos 
+    private boolean modificar = false;
+    boolean eliminado = false;
+    javax.swing.ImageIcon iconoGuardar = new javax.swing.ImageIcon(getClass().getResource(paqueteImagen + "Guardar.jpg"));
+    javax.swing.ImageIcon iconoModificar = new javax.swing.ImageIcon(getClass().getResource(paqueteImagen + "Modificar.png"));
 
     /**
      * Creates new form GUIComentario
@@ -16,6 +34,25 @@ public class GUIComentario extends javax.swing.JDialog {
     public GUIComentario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setDatosCmbSector();
+        btnEliminar.setVisible(false);
+
+        this.setTitle(Constantes.TITLE_NUEVO_COMENTARIO);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+    }
+    public GUIComentario(java.awt.Frame parent, boolean modal, Comentario comentario) {
+        super(parent, modal);
+        initComponents();
+        this.comentario = comentario;
+        // se indica que se utiliza este formulario para modificar datos
+        modificar = true;
+        this.setTitle(Constantes.TITLE_EDITAR_COMENTARIO);
+         setDatosCmbSector();
+        setDatos(comentario);
+         
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /**
@@ -27,30 +64,45 @@ public class GUIComentario extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
+        lblMotivo = new javax.swing.JLabel();
+        txtDescripcion = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        lblSector = new javax.swing.JLabel();
+        cmbSector = new javax.swing.JComboBox();
+        btnNuevoSector = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Observacion");
+        lblMotivo.setText("Motivo");
 
-        jButton1.setText("Cancelar");
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Eliminar");
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Guardar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Sector");
+        lblSector.setText("Sector");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir" }));
+        cmbSector.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir" }));
 
-        jButton4.setText("Nuevo");
+        btnNuevoSector.setText("Nuevo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,22 +112,22 @@ public class GUIComentario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnCancelar)
                         .addGap(53, 53, 53)
-                        .addComponent(jButton2)
+                        .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                        .addComponent(jButton3))
+                        .addComponent(btnGuardar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(lblMotivo)
+                            .addComponent(lblSector))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
+                            .addComponent(txtDescripcion)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbSector, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(btnNuevoSector, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -83,23 +135,61 @@ public class GUIComentario extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(lblSector)
+                    .addComponent(cmbSector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevoSector))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMotivo)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnGuardar))
                 .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        ComentarioDao comentarioDAO = new ComentarioDaoImp();
+        if (!modificar) {
+            //si se ingresa un nueva persona
+            comentario = new Comentario();
+        }
+        getDatos();
+        
+
+        if (modificar) {
+            comentarioDAO.upDateComentario(comentario);
+        } else {
+            comentarioDAO.addComentario(comentario);
+        }
+        setAgregado(true);
+        new MiJoptionPane().mensajeInformacionAltaOK(this);
+        this.dispose();
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        //  int opc = JOptionPane.showConfirmDialog(null,"Esta seguro de Eliminar el Concepto: "+comentario.getDescripcion(), "ELIMINAR CONCEPTO", JOptionPane.YES_NO_OPTION);
+        int opc = new MiJoptionPane().confiramacionMensajeEliminar(this, "Sector", comentario.getDescripcion());
+        if (opc == JOptionPane.YES_OPTION) {
+            new ComentarioDaoImp().deleteComentario(comentario);
+            new MiJoptionPane().mensajeInformacionAtualizacionOK(null);
+            setEliminado(true);
+            this.dispose();
+
+            // configuarar botones luego de eliminar
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,13 +233,66 @@ public class GUIComentario extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnNuevoSector;
+    private javax.swing.JComboBox cmbSector;
+    private javax.swing.JLabel lblMotivo;
+    private javax.swing.JLabel lblSector;
+    private javax.swing.JTextField txtDescripcion;
     // End of variables declaration//GEN-END:variables
+
+    private void setDatos(Comentario comentario) {
+        txtDescripcion.setText(comentario.getDescripcion());
+        
+        cmbSector.setSelectedItem(new SectorDaoImp().getSector(comentario.getSid()).getDescripcion());
+
+    }
+
+    public void getDatos() {
+        comentario.setDescripcion(txtDescripcion.getText());
+        int idSector = new SectorDaoImp().getSector(cmbSector.getSelectedItem().toString()).getSid();
+        comentario.setSid(idSector);
+    }
+
+    public boolean isAgregado() {
+        return agregado;
+    }
+
+    public void setAgregado(boolean agregado) {
+        this.agregado = agregado;
+    }
+
+    public boolean isModificar() {
+        return modificar;
+    }
+
+    public void setModificar(boolean modificar) {
+        this.modificar = modificar;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
+    public void setDatosCmbSector() {
+        cmbSector.removeAllItems();
+        cmbSector.addItem("Seleccione");
+
+        if (new SectorDaoImp().listarSector().isEmpty()) {
+            // si la lista de tipodecomprobante por categoria esta vacia
+            cmbSector.setEditable(false);
+        } else {
+
+            for (Sector o : new SectorDaoImp().listarSector()) {
+
+                cmbSector.addItem(o.getDescripcion());
+            }
+        }
+    }
 }

@@ -19,5 +19,5 @@ public interface EmpleadoDao {
   public void upDateEmpleado(Empleado a);
   public Empleado getEmpleado(int idEmpleadoo);
   public Empleado getEmpleadoAdministrador(int dni,boolean adm,String clave);
-
+   public Empleado getEmpleado_XDni(int dni);
 }

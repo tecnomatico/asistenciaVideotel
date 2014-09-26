@@ -36,6 +36,10 @@ public class MiJoptionPane extends JOptionPane{
     {
         JOptionPane.showMessageDialog(padre,mensaje,Constantes.TITLE_APP,JOptionPane.ERROR_MESSAGE);
     }
+    public static void mensajeAdvertencia(Component padre,String mensaje)
+    {
+        JOptionPane.showMessageDialog(padre,mensaje,Constantes.TITLE_APP,JOptionPane.WARNING_MESSAGE);
+    }
     public static void mensajeInformacionAtualizacionOK(Component padre){
         JOptionPane.showMessageDialog(padre,OPERACION_OK,ACCION_ACTUALIZACION,JOptionPane.INFORMATION_MESSAGE);
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 23/09/2014 15:09:48 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 26/09/2014 17:58:11 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="co.tecnomati.java.asistenciavideotel.dominio.Marcacion" table="marcacion" catalog="asistencia_videotel">
         <id name="maid" type="java.lang.Integer">
@@ -11,11 +11,11 @@
         <many-to-one name="asistencia" class="co.tecnomati.java.asistenciavideotel.dominio.Asistencia" fetch="select">
             <column name="AID" />
         </many-to-one>
-        <property name="entrada" type="date">
-            <column name="ENTRADA" length="10" />
+        <property name="entrada" type="time">
+            <column name="ENTRADA" length="8" />
         </property>
-        <property name="salida" type="date">
-            <column name="SALIDA" length="10" />
+        <property name="salida" type="time">
+            <column name="SALIDA" length="8" />
         </property>
         <property name="etolerancia" type="java.lang.Byte">
             <column name="ETOLERANCIA" />
@@ -35,10 +35,10 @@
         <property name="etimarcacion" type="java.lang.Boolean">
             <column name="ETIMARCACION" />
         </property>
-        <property name="mintardanzae" type="java.lang.Byte">
+        <property name="mintardanzae" type="java.lang.Short">
             <column name="MINTARDANZAE" />
         </property>
-        <property name="mintardanzas" type="java.lang.Byte">
+        <property name="mintardanzas" type="java.lang.Short">
             <column name="MINTARDANZAS" />
         </property>
         <property name="etiextram" type="java.lang.Boolean">

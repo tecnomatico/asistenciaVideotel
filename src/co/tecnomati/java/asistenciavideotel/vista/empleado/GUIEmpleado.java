@@ -13,7 +13,7 @@ import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.SectorDaoImp;
 import co.tecnomati.java.asistenciavideotel.util.FicheroUtil;
 import co.tecnomati.java.asistenciavideotel.util.FiltroUtil;
 import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
-import co.tecnomati.java.asistenciavideotel.vista.diatrabajo.GUIDiaTrabajo;
+import co.tecnomati.java.asistenciavideotel.vista.turno.GUIDiaTrabajo;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.Icon;
@@ -53,7 +53,7 @@ public class GUIEmpleado extends javax.swing.JDialog {
 
         btnEliminar.setVisible(false);
         setDatosCmbSector();
-        this.setTitle(Constantes.TITLE_EDITAR_EMPLEADO);
+        this.setTitle(Constantes.TITLE_NUEVO_EMPLEADO);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -65,7 +65,7 @@ public class GUIEmpleado extends javax.swing.JDialog {
         this.empleado = empleado;
         // se indica que se utiliza este formulario para modificar datos
         modificar = true;
-        this.setTitle(Constantes.TITLE_EDITAR_SECTOR);
+        this.setTitle(Constantes.TITLE_EDITAR_EMPLEADO);
         setDatos(empleado);
         setDatosCmbSector();
         cmbSector.setSelectedItem(empleado.getSector().getDescripcion());

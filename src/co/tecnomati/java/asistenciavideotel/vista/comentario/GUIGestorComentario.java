@@ -4,18 +4,40 @@
  */
 package co.tecnomati.java.asistenciavideotel.vista.comentario;
 
+import co.tecnomati.java.asistenciavideotel.cons.Constantes;
+import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
+import co.tecnomati.java.asistenciavideotel.dominio.Sector;
+import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
+import co.tecnomati.java.asistenciavideotel.util.TablaUtil;
+import co.tecnomati.java.asistenciavideotel.util.modeloTabla.ModeloComentario;
+import co.tecnomati.java.asistenciavideotel.util.modeloTabla.ModeloSector;
+import co.tecnomati.java.asistenciavideotel.vista.sector.GUISector;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author joel
  */
 public class GUIGestorComentario extends javax.swing.JDialog {
 
+    
+      int numeroSeleccion;
+    Comentario comentario;
+    ModeloComentario modeloComentario;
+    boolean agregado = false;
+    private TableRowSorter sorter;
     /**
      * Creates new form GUIGestorComentario
      */
     public GUIGestorComentario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle(Constantes.TITLE_GESTOR_COMENTARIO);
+
+        inicializarTabla();
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /**
@@ -29,17 +51,23 @@ public class GUIGestorComentario extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblComentario = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Filtro");
+
+        txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFiltroKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -49,7 +77,7 @@ public class GUIGestorComentario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -58,11 +86,11 @@ public class GUIGestorComentario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblComentario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -73,13 +101,28 @@ public class GUIGestorComentario extends javax.swing.JDialog {
                 "id", "Observacion"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblComentario);
 
-        jButton1.setText("Cancelar");
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Nuevo");
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Editar");
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,11 +130,11 @@ public class GUIGestorComentario extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnCancelar)
                 .addGap(68, 68, 68)
-                .addComponent(jButton2)
+                .addComponent(btnEditar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(btnNuevo)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,9 +142,9 @@ public class GUIGestorComentario extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnNuevo))
                 .addContainerGap())
         );
 
@@ -134,6 +177,37 @@ public class GUIGestorComentario extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        GUIComentario nuevoComentario = new GUIComentario(null, true);
+        if (nuevoComentario.isAgregado()) {
+            inicializarTabla();
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (tblComentario.getSelectedRow() != -1) {
+            numeroSeleccion = sorter.convertRowIndexToModel(tblComentario.getSelectedRow());
+            comentario = modeloComentario.getComentario(numeroSeleccion);
+            GUIComentario modificarComentario = new GUIComentario(null, true, comentario);
+            // actulizar la tabla con los datos modificados
+            if (modificarComentario.isAgregado() || modificarComentario.isEliminado()) {
+                modificarComentario.dispose();
+                inicializarTabla();
+            }
+
+        } else {
+            new MiJoptionPane().showDialogSeleccioneFila(this);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
+        TablaUtil.filtro(tblComentario, sorter, txtFiltro);  
+    }//GEN-LAST:event_txtFiltroKeyPressed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,14 +251,20 @@ public class GUIGestorComentario extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblComentario;
+    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
+    public void inicializarTabla() {
+        modeloComentario = new ModeloComentario();
+        sorter = new TableRowSorter(modeloComentario);
+        tblComentario.setModel(modeloComentario);
+        TablaUtil.ocultarIdTabla(tblComentario);
+    }
 }

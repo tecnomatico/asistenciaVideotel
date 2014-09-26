@@ -42,15 +42,16 @@ public class GUIEmpresa extends javax.swing.JDialog {
             modificar = true;
             // cambiar las etiquetas para que mensionen q se hara una actualizacion de datos
             btnGuardar.setText(Constantes.TXT_MODIFICAR);            
-            btnGuardar.setIcon(iconoModificar);            
+//            btnGuardar.setIcon(iconoModificar);            
             this.setTitle(Constantes.TITLE_EDITAR_EMPRESA);
         }else{
             modificar = false;
-            btnGuardar.setText(Constantes.TXT_GUARDAR);            
-            btnGuardar.setIcon(iconoGuardar);
+            btnGuardar.setText(Constantes.TXT_GUARDAR);   
+             this.setTitle(Constantes.TITLE_NUEVO_EMPRESA);
+//            btnGuardar.setIcon(iconoGuardar);
         }            
         
-        this.setTitle(Constantes.TITLE_NUEVO_EMPRESA);
+       
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
@@ -140,7 +141,7 @@ public class GUIEmpresa extends javax.swing.JDialog {
                                 .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtLocalidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +175,6 @@ public class GUIEmpresa extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new MiJoptionPane().mensajeInformacionAltaOK(this);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

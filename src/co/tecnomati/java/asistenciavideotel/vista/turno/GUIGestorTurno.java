@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.tecnomati.java.asistenciavideotel.vista.diatrabajo;
+package co.tecnomati.java.asistenciavideotel.vista.turno;
 
 import co.tecnomati.java.asistenciavideotel.cons.Constantes;
 import co.tecnomati.java.asistenciavideotel.dominio.Turno;

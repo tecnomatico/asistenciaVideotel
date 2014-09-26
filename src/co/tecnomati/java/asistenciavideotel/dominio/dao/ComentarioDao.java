@@ -5,6 +5,7 @@
 package co.tecnomati.java.asistenciavideotel.dominio.dao;
 
 import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
+import java.util.List;
 
 /**
  *
@@ -16,4 +17,5 @@ public interface ComentarioDao {
   public void deleteComentario(Comentario a);
   public void upDateComentario(Comentario a);
   public Comentario getComentario(int idComentario);
+  public List<Comentario> listarComentario(int idSector);
 }

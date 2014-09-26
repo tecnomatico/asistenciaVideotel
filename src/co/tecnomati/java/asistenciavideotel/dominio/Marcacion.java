@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 23/09/2014 15:09:47 by Hibernate Tools 3.2.1.GA
+// Generated 26/09/2014 17:58:10 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -20,15 +20,15 @@ public class Marcacion  implements java.io.Serializable {
      private Date fmodificado;
      private Boolean estado;
      private Boolean etimarcacion;
-     private Byte mintardanzae;
-     private Byte mintardanzas;
+     private Short mintardanzae;
+     private Short mintardanzas;
      private Boolean etiextram;
      private Boolean etiextrad;
 
     public Marcacion() {
     }
 
-    public Marcacion(Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado, Boolean etimarcacion, Byte mintardanzae, Byte mintardanzas, Boolean etiextram, Boolean etiextrad) {
+    public Marcacion(Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado, Boolean etimarcacion, Short mintardanzae, Short mintardanzas, Boolean etiextram, Boolean etiextrad) {
        this.asistencia = asistencia;
        this.entrada = entrada;
        this.salida = salida;
@@ -114,18 +114,18 @@ public class Marcacion  implements java.io.Serializable {
     public void setEtimarcacion(Boolean etimarcacion) {
         this.etimarcacion = etimarcacion;
     }
-    public Byte getMintardanzae() {
+    public Short getMintardanzae() {
         return this.mintardanzae;
     }
     
-    public void setMintardanzae(Byte mintardanzae) {
+    public void setMintardanzae(Short mintardanzae) {
         this.mintardanzae = mintardanzae;
     }
-    public Byte getMintardanzas() {
+    public Short getMintardanzas() {
         return this.mintardanzas;
     }
     
-    public void setMintardanzas(Byte mintardanzas) {
+    public void setMintardanzas(Short mintardanzas) {
         this.mintardanzas = mintardanzas;
     }
     public Boolean getEtiextram() {

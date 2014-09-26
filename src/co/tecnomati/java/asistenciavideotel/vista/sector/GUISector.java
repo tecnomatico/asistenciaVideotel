@@ -31,7 +31,7 @@ public class GUISector extends javax.swing.JDialog {
 
         btnEliminar.setVisible(false);
 
-        this.setTitle(Constantes.TITLE_EDITAR_SECTOR);
+        this.setTitle(Constantes.TITLE_NUEVO_SECTOR);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 

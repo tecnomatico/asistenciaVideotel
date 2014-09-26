@@ -14,6 +14,8 @@ import java.util.List;
 public interface TurnoDao {
   java.util.List<Turno> listarTurno();
   java.util.List<Turno> listarTurno(int idEmpleado);
+   public List<Turno> listarTurno(int idEmpleado, int idDiaTrabajo);
+  public Turno getTurno(int idEmpleado, int idDiaTrabajo,byte numTurno);
   public List<Turno> listarTurno_ConForaneas();
   public void addTurno(Turno a);
   public void deleteTurno(Turno a);

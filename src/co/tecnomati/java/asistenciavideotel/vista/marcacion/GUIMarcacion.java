@@ -5,14 +5,43 @@
 package co.tecnomati.java.asistenciavideotel.vista.marcacion;
 
 import co.tecnomati.java.asistenciavideotel.cons.Constantes;
+import co.tecnomati.java.asistenciavideotel.dominio.Asistencia;
+import co.tecnomati.java.asistenciavideotel.dominio.Comentario;
+import co.tecnomati.java.asistenciavideotel.dominio.Diatrabajo;
+import co.tecnomati.java.asistenciavideotel.dominio.Empleado;
+import co.tecnomati.java.asistenciavideotel.dominio.Horario;
+import co.tecnomati.java.asistenciavideotel.dominio.Marcacion;
+import co.tecnomati.java.asistenciavideotel.dominio.Turno;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.AsistenciaDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.ComentarioDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.DiaTrabajoDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.EmpleadoDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.MarcacionDaoImp;
+import co.tecnomati.java.asistenciavideotel.dominio.dao.imp.TurnoDaoImp;
+import co.tecnomati.java.asistenciavideotel.util.FechaUtil;
+import co.tecnomati.java.asistenciavideotel.util.FiltroUtil;
+import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
+import co.tecnomati.java.asistenciavideotel.util.camara.JmfVideoUtil;
+import co.tecnomati.java.asistenciavideotel.util.camara.miPlayer;
 import co.tecnomati.java.asistenciavideotel.vista.administrador.GUILogin;
-import co.tecnomati.java.asistenciavideotel.vista.diatrabajo.GUIDiaTrabajo;
+import co.tecnomati.java.asistenciavideotel.vista.comentario.GUIGestorComentario;
+import co.tecnomati.java.asistenciavideotel.vista.turno.GUIDiaTrabajo;
 import co.tecnomati.java.asistenciavideotel.vista.empleado.GUIEmpleado;
 import co.tecnomati.java.asistenciavideotel.vista.empleado.GUIGestorEmpleado;
 import co.tecnomati.java.asistenciavideotel.vista.empresa.GUIEmpresa;
 import co.tecnomati.java.asistenciavideotel.vista.horario.GUIHorario;
 import co.tecnomati.java.asistenciavideotel.vista.sector.GUIGestorSector;
-import co.tecnomati.java.asistenciavideotel.vista.sector.GUISector;
+import com.sun.media.Log;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.Date;
+import java.util.List;
+import javax.media.Player;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -20,11 +49,26 @@ import co.tecnomati.java.asistenciavideotel.vista.sector.GUISector;
  */
 public class GUIMarcacion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GUIMarcacion
-     */
+    private static final int ALTA = 0;
+    private static final int MODIFICAR = 1;
+    private static final byte MARCACION_ENTRADA = 1;
+    private static final byte MARCACION_SALIDA = 0;
+    JmfVideoUtil b = new JmfVideoUtil();
+    private Player p1;
+    // 
+    Date fechaHoy;
+    Empleado empleado;
+    Diatrabajo diaTrabajo;
+    Horario horario;
+    Turno turno;
+    Asistencia asistencia;
+    Marcacion marcacion;
+
     public GUIMarcacion() {
         initComponents();
+        initComponents2();
+        txtDni.requestFocus();
+        txtDni.setText("");
         this.setTitle(Constantes.TITLE_APP);
         this.setLocationRelativeTo(this);
         this.setVisible(true);
@@ -44,13 +88,13 @@ public class GUIMarcacion extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         panelPadre = new javax.swing.JPanel();
         panelInicio = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panelCam = new javax.swing.JPanel();
         clockDigital1 = new org.edisoncor.gui.varios.ClockDigital();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        txtDni = new javax.swing.JTextField();
+        lblNameSistema = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuInicio = new javax.swing.JMenu();
         mnuItmIniciarSesion = new javax.swing.JMenuItem();
@@ -65,7 +109,9 @@ public class GUIMarcacion extends javax.swing.JFrame {
         mnuItmGestorSector = new javax.swing.JMenuItem();
         mnuHorario = new javax.swing.JMenu();
         mnuItmHorario = new javax.swing.JMenuItem();
-        mnuItmDiaTrabajo = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        mnuItmComentarios = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         mnuItmAcerca = new javax.swing.JMenuItem();
 
@@ -75,12 +121,19 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
         jMenu4.setText("jMenu4");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(700, 600));
+        setResizable(false);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Marte 8 de agosto de 2014");
+        panelInicio.setPreferredSize(new java.awt.Dimension(666, 542));
 
-        panelCam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblFecha.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFecha.setText("Marte 8 de agosto de 2014");
+
+        panelCam.setBackground(new java.awt.Color(0, 0, 0));
+        panelCam.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        panelCam.setMaximumSize(new java.awt.Dimension(400, 400));
+        panelCam.setMinimumSize(new java.awt.Dimension(400, 400));
 
         javax.swing.GroupLayout panelCamLayout = new javax.swing.GroupLayout(panelCam);
         panelCam.setLayout(panelCamLayout);
@@ -99,14 +152,27 @@ public class GUIMarcacion extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("id");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtDni.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtDni.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtDni.setText("32369235");
+        txtDni.setMaximumSize(new java.awt.Dimension(94, 28));
+        txtDni.setMinimumSize(new java.awt.Dimension(94, 28));
+        txtDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtDniActionPerformed(evt);
+            }
+        });
+        txtDni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDniKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniKeyTyped(evt);
             }
         });
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Sistema de Control de Asistencia ");
+        lblNameSistema.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNameSistema.setText("Sistema de Control de Asistencia ");
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
@@ -115,29 +181,26 @@ public class GUIMarcacion extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelInicioLayout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelInicioLayout.createSequentialGroup()
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelInicioLayout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(clockDigital1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 24, Short.MAX_VALUE)
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblNameSistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSeparator1))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,12 +210,12 @@ public class GUIMarcacion extends javax.swing.JFrame {
                     .addGroup(panelInicioLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82)
+                        .addGap(53, 53, 53)
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(454, 454, 454)
+                .addComponent(lblNameSistema)
                 .addContainerGap())
         );
 
@@ -162,7 +225,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
             panelPadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPadreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelPadreLayout.setVerticalGroup(
@@ -252,15 +315,22 @@ public class GUIMarcacion extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuItmHorario);
 
-        mnuItmDiaTrabajo.setText("Dia de Trabajo");
-        mnuItmDiaTrabajo.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.add(mnuHorario);
+
+        jMenu1.setText("Asistencia");
+
+        jMenuItem2.setText("GestorAsistencia");
+        jMenu1.add(jMenuItem2);
+
+        mnuItmComentarios.setText("Gestor de Motivos Hs Extra");
+        mnuItmComentarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuItmDiaTrabajoActionPerformed(evt);
+                mnuItmComentariosActionPerformed(evt);
             }
         });
-        mnuHorario.add(mnuItmDiaTrabajo);
+        jMenu1.add(mnuItmComentarios);
 
-        jMenuBar1.add(mnuHorario);
+        jMenuBar1.add(jMenu1);
 
         jMenu7.setText("Acerca");
 
@@ -296,9 +366,9 @@ public class GUIMarcacion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtDniActionPerformed
 
     private void mnuItmAltaEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmAltaEmpleadoActionPerformed
         new GUIEmpleado(this, true);
@@ -343,12 +413,32 @@ public class GUIMarcacion extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuItmCerrarSesionActionPerformed
 
     private void mnuItmHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmHorarioActionPerformed
-      new GUIHorario(this, true);
+        new GUIHorario(this, true);
     }//GEN-LAST:event_mnuItmHorarioActionPerformed
 
-    private void mnuItmDiaTrabajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmDiaTrabajoActionPerformed
-       new GUIDiaTrabajo(this, true);
-    }//GEN-LAST:event_mnuItmDiaTrabajoActionPerformed
+    private void txtDniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyPressed
+        // si presiono enter entonces hay quer registrar la marcacion
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            //
+            fechaHoy = new Date();
+            if (isValidoId()) {
+                // es valido el identificador
+                registrarMarcacion();
+
+
+            }
+
+            limpiarDatos();
+        }
+    }//GEN-LAST:event_txtDniKeyPressed
+
+    private void txtDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyTyped
+        FiltroUtil.permitirSoloNumero(evt, txtDni, 8);
+    }//GEN-LAST:event_txtDniKeyTyped
+
+    private void mnuItmComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmComentariosActionPerformed
+        new GUIGestorComentario(this, true);
+    }//GEN-LAST:event_mnuItmComentariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,25 +476,26 @@ public class GUIMarcacion extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.varios.ClockDigital clockDigital1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblNameSistema;
     private javax.swing.JMenu mnuEmpleado;
     private javax.swing.JMenu mnuHorario;
     private javax.swing.JMenu mnuInicio;
     private javax.swing.JMenuItem mnuItmAcerca;
     private javax.swing.JMenuItem mnuItmAltaEmpleado;
     private javax.swing.JMenuItem mnuItmCerrarSesion;
+    private javax.swing.JMenuItem mnuItmComentarios;
     private javax.swing.JMenuItem mnuItmConfigEmpresa;
-    private javax.swing.JMenuItem mnuItmDiaTrabajo;
     private javax.swing.JMenu mnuItmEmpresa;
     private javax.swing.JMenuItem mnuItmGestorEmpleado;
     private javax.swing.JMenuItem mnuItmGestorSector;
@@ -414,13 +505,16 @@ public class GUIMarcacion extends javax.swing.JFrame {
     private javax.swing.JPanel panelCam;
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelPadre;
+    private javax.swing.JTextField txtDni;
     // End of variables declaration//GEN-END:variables
 
     /**
-     * 
-     * Activa o desactiva de acuerdo al parametro qeu se el envie las opciones de la barra de menu 
-     * Esto es para activar o desactivar las opciones de Administrador
-     * @param b 
+     *
+     * Activa o desactiva de acuerdo al parametro qeu se el envie las opciones
+     * de la barra de menu Esto es para activar o desactivar las opciones de
+     * Administrador
+     *
+     * @param b
      */
     private void setconfigurarcionMenuAdministrador(boolean b) {
 
@@ -441,11 +535,389 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
     }
 
-/**
- *  Oculta o no el panel donde el empleado realiza sus maraciones.
- * @param b 
- */
+    /**
+     * Oculta o no el panel donde el empleado realiza sus maraciones.
+     *
+     * @param b
+     */
     private void setPaneldeControl(boolean b) {
         panelInicio.setVisible(b);
     }
+
+    public Player getPlayer() {
+        return p1;
+    }
+
+    public void setPlayer(Player pin) {
+        p1 = pin;
+    }
+
+    public JPanel getCamara() {
+        return panelCam;
+    }
+
+    private void initComponents2() {
+        //registramos los Oyentes de eventos
+        eventos e = new eventos(this);
+        addWindowListener(e);
+        mnuItmEmpresa.addActionListener(e);
+        //jmCBD.addActionListener(e);
+        mnuItmSalir.addActionListener(e);
+        mnuItmAcerca.addActionListener(e);
+        //Cargamos en el menu los Dispositivos detectados
+        // jDispositivos.menuDispositivos(this,jmDispositivos);
+        lblFecha.setText(FechaUtil.getFecha_Dia_DD_De_MM_De_AAAA(new Date()));
+        // agrego al panel  la camara de video
+        try {
+            panelCam.add(b.Componente());
+        } catch (Exception nep) {
+            JOptionPane.showMessageDialog(this, "La Conexion con la Camara FALLO, revise si su dispositivo esta conectado a la PC y  reincie la aplicacion ", "NO SE RECONOCE LA CAMARA", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+//        adaptarTamaño(lbliconEmpresa, new ImageIcon(getClass().getResource("/com/freelancersteam/www/java/tomafoto/images/iconTecnomatica.png")).getImage());
+        lblNameSistema.setText(Constantes.TITLE_APP);
+        setLocationRelativeTo(this); //centramos el formulario
+
+    }
+
+    /**
+     *
+     * @return devuelve true si el identificador ingresado pertenece a un
+     * empleado. false si : esta vacio , incompleto o no existe el identificador
+     * enla bd.
+     */
+    private boolean isValidoId() {
+        boolean b = false;
+        int longitud = txtDni.getText().trim().length();
+        if (longitud > 0) {
+            empleado = new EmpleadoDaoImp().getEmpleado_XDni(Integer.parseInt(txtDni.getText()));
+            if (longitud > 6 && empleado != null) {
+                // dni correcto
+                b = true;
+                Log.write("Valido el empleado  " + empleado.toString());
+            } else {
+                MiJoptionPane.mensajeError(this, "IDENTIFICADOR INCORRECTO");
+            }
+        }
+
+
+        return b;
+
+    }
+
+    /**
+     * registra la marcacion del empleado en el sistema.
+     */
+    private void registrarMarcacion() {
+
+        if (isExistDiaTrabajo()) {
+
+            // si trabaja en ese dia
+            if (!isExistAsistenciaHoy()) {
+                System.err.println("No existe  Asistenica de hoy");
+                // no realizo ninguna marca entonces debo registrar    
+                cargarOactualizarAsistencia(ALTA);
+
+            } else {
+                // ya tiene su asistencia del dia entonces actualizo las marcaciones 
+                if (asistencia.getNturno() <= diaTrabajo.getNturno()) {
+                    // numero de marcaciones de asistencia diaria es menor que la cantidad de turnos diarios 
+                    System.err.println("Existe Asistenica de hoy");
+                    cargarOactualizarAsistencia(MODIFICAR);
+                } else {
+                    // empleado registra una marcacion que no le corresponde en su dia
+                    System.err.println("No se marca xq ya marco todas sus turnos diarios.");
+                    mostrarVenanaHSExtra(empleado.getSector().getSid());
+                }
+
+
+            }
+        } else {
+            // no tiene asignado ese dia ,, se supone como extra.
+            System.err.println("No tiene asignado un horario para este dia");
+             mostrarVenanaHSExtra(empleado.getSector().getSid());
+        }
+
+
+
+    }
+
+    /**
+     *
+     * @return true si el empleado tiene asignado ese dia de trabajo
+     */
+    private boolean isExistDiaTrabajo() {
+        boolean b = false;
+        int idEmpleado = empleado.getEid();
+        int idDia = FechaUtil.getDiaDeLaSemana(new Date());
+        diaTrabajo = new DiaTrabajoDaoImp().getDiatrabajo_XDia(idDia, idEmpleado);
+        if (diaTrabajo != null) {
+            // comprobar cuantos minutos llego tarde
+            b = true;
+            Log.write("Dia Trabajo: Si trabajo hoy el Empleado " + diaTrabajo.toString());
+        }
+        return b;
+    }
+
+    /**
+     *
+     * @return True si el empleado marco una una Asistencia en el dia de hoy
+     */
+    private boolean isExistAsistenciaHoy() {
+        boolean b = false;
+        asistencia = new AsistenciaDaoImp().getAsistencia(empleado.getEid(), fechaHoy);
+        if (asistencia != null) {
+
+            b = true;
+            Log.write("ASistencia: El empleado ya tiene Asitencia hoy" + diaTrabajo.toString());
+            System.err.println(" existe una asistencia  " + asistencia.toString());
+        }
+        return b;
+
+    }
+
+    /**
+     *
+     * @param op indica si se realiza una alta o actualizacion da de Alta o
+     * Actuaaliza la Asistencia de acuerdo al parametro recibido
+     */
+    private void cargarOactualizarAsistencia(int op) {
+        String dia = "";
+        switch (op) {
+
+            case ALTA:
+                asistencia = new Asistencia();
+                asistencia.setEmpleado(empleado);
+                asistencia.setFecha(fechaHoy);
+
+                asistencia.setNturno((byte) 1); // cantidad de marcaciones en el dia
+                asistencia.setMcontador((byte) 1); // 1 si es entrada .0 salida
+
+                new AsistenciaDaoImp().addAsistencia(asistencia);
+
+                cargarOactualizarMarcacion(ALTA);
+                System.err.println("Alta asistencia OK");
+
+                break;
+            case MODIFICAR:
+                // marcar salida
+                System.err.println("a" + asistencia.getMcontador() + MARCACION_SALIDA);
+                if (asistencia.getMcontador() == MARCACION_SALIDA) {
+                    // marca una nueva maracion en la asistencia
+
+                    byte nturno = (byte) (asistencia.getNturno() + 1);
+                    asistencia.setNturno(nturno);
+                    asistencia.setMcontador(MARCACION_ENTRADA);
+                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
+
+                    //MARCACION
+                    cargarOactualizarMarcacion(ALTA);
+                    System.err.println("nueva marcacion en el dia");
+                } else {
+                    //marca salida de una marcacion existente 
+
+                    System.err.println("marcacion de salida ");
+                    asistencia.setMcontador(MARCACION_SALIDA);
+                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
+
+                    //MARCACION
+                    cargarOactualizarMarcacion(MODIFICAR);
+                }
+                System.err.println("Modificacion  asistencia OK");
+                break;
+
+
+
+        }
+
+
+
+
+
+    }
+
+    /**
+     * Carga o Actualiza una Marcacion segun el parametro recibido
+     *
+     * @param op
+     */
+    private void cargarOactualizarMarcacion(int op) {
+
+        switch (op) {
+
+            case ALTA:
+                // agregar una marcacion nueva
+                marcacion = new Marcacion();
+                marcacion.setAsistencia(asistencia);
+                marcacion.setEntrada(fechaHoy);
+                marcacion.setEstado(false);
+                // calculo de la tolerancias
+
+                // obtengo el turno para la marcacion actual.
+
+                cargarYControlarMinutosTolerancias(MARCACION_ENTRADA);
+
+                new MarcacionDaoImp().addMarcacion(marcacion);
+                System.err.println("Alta   Marcacion OK");
+                break;
+
+            case MODIFICAR:
+
+                // marco la salida de la marcacion existente
+                marcacion = new MarcacionDaoImp().getUtlimaMarcacionIncompleta(asistencia.getAid());
+                marcacion.setSalida(fechaHoy);
+                marcacion.setEstado(true);// indico q se completo la marcacion entrada-salida
+                // caluclo de las tolerancias
+                cargarYControlarMinutosTolerancias(MARCACION_SALIDA);
+                new MarcacionDaoImp().upDateMarcacion(marcacion);
+                System.err.println("Modificacion  Marcacion OK");
+
+
+                break;
+        }
+
+        System.err.println("marcacion " + marcacion.toString());
+
+
+    }
+
+    /**
+     * limpia todas las variables utilizadas en la marcacion limpia el id
+     * ingresado y coloca el foco en el
+     */
+    private void limpiarDatos() {
+        txtDni.requestFocus();
+        txtDni.setText("");
+        asistencia = null;
+        empleado = null;
+        horario = null;
+        turno = null;
+        diaTrabajo = null;
+        marcacion = null;
+    }
+
+    /**
+     *
+     * @param op indica si es maracion de entrada o salida almacena en turno los
+     * minutos de tolerancia y controla si se demoro
+     *
+     */
+    private void cargarYControlarMinutosTolerancias(byte op) {
+        turno = new TurnoDaoImp().getTurno(empleado.getEid(), diaTrabajo.getDtid(), asistencia.getNturno());
+        horario = turno.getHorario();
+        switch (op) {
+            case MARCACION_ENTRADA:
+                int minTolentrada = FechaUtil.getCantidadDeMinutos(horario.getEntrada(), fechaHoy);
+                marcacion.setMintardanzae((short) minTolentrada);
+                System.err.println("minutos de demora en la entrada " + minTolentrada);
+                // si es una tardanza entonces debe alarmar el xq
+                if (minTolentrada > Integer.parseInt(FechaUtil.getMM(turno.getEtolerancia()))) {
+                    System.err.println("tardanza en la entrada");
+                    // registrar el motivo de la tardanza
+                    mostrarVenanaHSExtra(empleado.getSector().getSid());
+                }
+
+                break;
+            case MARCACION_SALIDA:
+                int minToleSalida = FechaUtil.getCantidadDeMinutos(horario.getSalida(), fechaHoy);
+                marcacion.setMintardanzas((short) minToleSalida);
+                System.err.println("minutos de demora en la salida " + minToleSalida);
+                // si es una tardanza entonces debe alarmar el xq
+                if (minToleSalida > Integer.parseInt(FechaUtil.getMM(turno.getStolerancia()))) {
+                    System.err.println("tardanza en la Salida");
+                    // registrar el motivo de la tardanza
+                     mostrarVenanaHSExtra(empleado.getSector().getSid());
+                    
+                }
+                break;
+
+        }
+    }
+
+    private class eventos implements WindowListener, ActionListener {
+
+        private GUIMarcacion padre;
+
+        public eventos(GUIMarcacion padre) {
+            this.padre = padre;
+        }
+
+        public void windowOpened(WindowEvent e) {
+        }
+
+        public void windowClosing(WindowEvent e) {
+            miPlayer.detenerPlayer(padre.getPlayer());
+        }
+
+        public void windowClosed(WindowEvent e) {
+        }
+
+        public void windowIconified(WindowEvent e) {
+        }
+
+        public void windowDeiconified(WindowEvent e) {
+        }
+
+        public void windowActivated(WindowEvent e) {
+        }
+
+        public void windowDeactivated(WindowEvent e) {
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("En Archivo")) {
+//                miPlayer.guardaImagenEnFichero(miPlayer.capturaFoto(padre.getPlayer()), guardaComo.verDialogo(padre));
+            } else if (e.getActionCommand().equals("En Base de Datos")) {
+//                miPlayer.guardaImagenEnBD(miPlayer.capturaFoto(padre.getPlayer()));
+            } else if (e.getActionCommand().equals("Salir")) {
+                miPlayer.detenerPlayer(padre.getPlayer());
+//            System.exit(0);
+                int opc;
+                opc = JOptionPane.showConfirmDialog(null, "Esta seguro de Salir de la Aplicacion", "Salir", JOptionPane.YES_NO_OPTION);
+                if (opc == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+//                else if (e.getActionCommand().equals("Acerca")) {
+//                new jacerca(padre, true).setVisible(true);
+//            }
+
+
+        }
+    }
+    
+    public void  mostrarVenanaHSExtra(int idSector){
+        //
+       
+        List<Comentario> lista = new ComentarioDaoImp().listarComentario(idSector);
+        String[] listcomentarios= new String[lista.size()+1];
+        int i=1;
+        listcomentarios[0]="Seleccione";
+        for (Comentario comentario : lista) {
+            listcomentarios[i]= comentario.getDescripcion();
+            i++;
+        }
+         
+       String motivo = (String) JOptionPane.showInputDialog(this, "SELECCIONE EL MOTIVO", "HS EXTRA", JOptionPane.INFORMATION_MESSAGE, null, listcomentarios,listcomentarios[0] );
+       
+        System.err.println("motivo " +motivo); 
+        
+        if (motivo==null) {
+            // cancelo operacion
+            MiJoptionPane.mensajeError(this, "NO SE REGISTRO SU ASISTENCIA ");
+        } else if (motivo=="Seleccione") {
+            // no seleccioo el motivo
+            MiJoptionPane.mensajeAdvertencia(this, "SELECCIONE UN MOTIVO PARA COMPLETAR SU REGISTRO DE ASISTENCIA");
+            mostrarVenanaHSExtra(idSector);
+        } else {
+            // ingreso motivo 
+            
+            // actualizar la marcacion
+        }
+{
+        }
+    
+    }
+    
+    
 }

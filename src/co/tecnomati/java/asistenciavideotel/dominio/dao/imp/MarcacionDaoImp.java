@@ -5,6 +5,7 @@
 package co.tecnomati.java.asistenciavideotel.dominio.dao.imp;
 
 
+import co.tecnomati.java.asistenciavideotel.dominio.Marcacion;
 import co.tecnomati.java.asistenciavideotel.vista.marcacion.GUIMarcacion;
 import co.tecnomati.java.asistenciavideotel.dominio.dao.MarcacionDao;
 import co.tecnomati.java.asistenciavideotel.hibernateUtil.HibernateUtil;
@@ -20,17 +21,17 @@ import org.hibernate.Session;
 public class MarcacionDaoImp extends HibernateUtil implements MarcacionDao{
 
     @Override
-    public List<GUIMarcacion> listarMarcacion() {
+    public List<Marcacion> listarMarcacion() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(GUIMarcacion.class);
-        ArrayList<GUIMarcacion> marcacion = (ArrayList<GUIMarcacion>)criteria.list();
+        Criteria criteria = session.createCriteria(Marcacion.class);
+        ArrayList<Marcacion> marcacion = (ArrayList<Marcacion>)criteria.list();
         session.close();
         return marcacion; 
     }
 
     @Override
-    public void addMarcacion(GUIMarcacion a) {
+    public void addMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(a);
@@ -38,7 +39,7 @@ public class MarcacionDaoImp extends HibernateUtil implements MarcacionDao{
         session.close();    }
 
     @Override
-    public void deleteMarcacion(GUIMarcacion a) {
+    public void deleteMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.delete(a);
@@ -47,7 +48,7 @@ public class MarcacionDaoImp extends HibernateUtil implements MarcacionDao{
     }
 
     @Override
-    public void upDateMarcacion(GUIMarcacion a) {
+    public void upDateMarcacion(Marcacion a) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.update(a);
@@ -56,13 +57,27 @@ public class MarcacionDaoImp extends HibernateUtil implements MarcacionDao{
     }
 
     @Override
-    public GUIMarcacion getMarcacion(int idMarcacion) {
+    public Marcacion getMarcacion(int idMarcacion) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        GUIMarcacion a = (GUIMarcacion) session.get(GUIMarcacion.class,idMarcacion);
+        Marcacion a = (Marcacion) session.get(Marcacion.class,idMarcacion);
         session.getTransaction().commit();
         session.close();
         return a;
+    }
+
+    @Override
+    public Marcacion getUtlimaMarcacionIncompleta(int idAsistencia) {
+       
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        Marcacion marcacion = (Marcacion) session.createQuery("FROM Marcacion m\n"
+                + "join fetch m.asistencia  as a\n"
+                + "where a.aid='" + idAsistencia + "' and m.estado='" + 0 + "'"
+                ).uniqueResult();
+        session.close();
+        return marcacion;
+    
     }
  
 }

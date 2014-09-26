@@ -66,10 +66,10 @@ public class ModeloTurno extends AbstractTableModel {
                 break;
             case 4:
                 // minutos de tolerancia
-                 objeto = FechaUtil.getMin(turno.getEtolerancia());
+                 objeto = FechaUtil.getMM(turno.getEtolerancia())+"'";
                 break;
             case 5:
-                objeto =  FechaUtil.getMin(turno.getStolerancia());
+                objeto =  FechaUtil.getMM(turno.getStolerancia())+"'";
                 break;
             case 6:
                 // momento mañana tarde o noche

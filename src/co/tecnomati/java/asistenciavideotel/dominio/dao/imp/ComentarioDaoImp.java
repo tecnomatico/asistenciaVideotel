@@ -21,12 +21,30 @@ public class ComentarioDaoImp extends HibernateUtil implements ComentarioDao{
 
     @Override
     public List<Comentario> listarComentario() {
-        Session session = HibernateUtil.getSession();
+          Session session = HibernateUtil.getSession();
+
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Comentario.class);
-        ArrayList<Comentario> comentario = (ArrayList<Comentario>)criteria.list();
+        List<Comentario> listaComentario =  (ArrayList<Comentario>) session.createQuery("FROM Comentario c\n"
+            
+                + "order by c.sid asc"
+        
+                ).list();
         session.close();
-        return comentario; 
+        return listaComentario;
+    }
+    @Override
+    public List<Comentario> listarComentario(int idSector) {
+         Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        List<Comentario> listaComentario =  (ArrayList<Comentario>) session.createQuery("FROM Comentario c\n"
+//                + "join fetch dt.empleado as e\n"
+                + "where c.sid='" + idSector + "'"
+                + "order by c.sid asc"
+        
+                ).list();
+        session.close();
+        return listaComentario;
     }
 
     @Override
