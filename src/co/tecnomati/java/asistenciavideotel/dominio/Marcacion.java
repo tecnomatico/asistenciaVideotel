@@ -1,5 +1,5 @@
 package co.tecnomati.java.asistenciavideotel.dominio;
-// Generated 26/09/2014 17:58:10 by Hibernate Tools 3.2.1.GA
+// Generated 07/10/2014 15:05:01 by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -19,16 +19,16 @@ public class Marcacion  implements java.io.Serializable {
      private Boolean modificado;
      private Date fmodificado;
      private Boolean estado;
-     private Boolean etimarcacion;
+     private Byte etimarcacion;
      private Short mintardanzae;
      private Short mintardanzas;
-     private Boolean etiextram;
+     private Byte etiextra;
      private Boolean etiextrad;
 
     public Marcacion() {
     }
 
-    public Marcacion(Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado, Boolean etimarcacion, Short mintardanzae, Short mintardanzas, Boolean etiextram, Boolean etiextrad) {
+    public Marcacion(Asistencia asistencia, Date entrada, Date salida, Byte etolerancia, Byte stolerancia, Boolean modificado, Date fmodificado, Boolean estado, Byte etimarcacion, Short mintardanzae, Short mintardanzas, Byte etiextra, Boolean etiextrad) {
        this.asistencia = asistencia;
        this.entrada = entrada;
        this.salida = salida;
@@ -40,7 +40,7 @@ public class Marcacion  implements java.io.Serializable {
        this.etimarcacion = etimarcacion;
        this.mintardanzae = mintardanzae;
        this.mintardanzas = mintardanzas;
-       this.etiextram = etiextram;
+       this.etiextra = etiextra;
        this.etiextrad = etiextrad;
     }
    
@@ -107,11 +107,11 @@ public class Marcacion  implements java.io.Serializable {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
-    public Boolean getEtimarcacion() {
+    public Byte getEtimarcacion() {
         return this.etimarcacion;
     }
     
-    public void setEtimarcacion(Boolean etimarcacion) {
+    public void setEtimarcacion(Byte etimarcacion) {
         this.etimarcacion = etimarcacion;
     }
     public Short getMintardanzae() {
@@ -128,12 +128,12 @@ public class Marcacion  implements java.io.Serializable {
     public void setMintardanzas(Short mintardanzas) {
         this.mintardanzas = mintardanzas;
     }
-    public Boolean getEtiextram() {
-        return this.etiextram;
+    public Byte getEtiextra() {
+        return this.etiextra;
     }
     
-    public void setEtiextram(Boolean etiextram) {
-        this.etiextram = etiextram;
+    public void setEtiextra(Byte etiextra) {
+        this.etiextra = etiextra;
     }
     public Boolean getEtiextrad() {
         return this.etiextrad;

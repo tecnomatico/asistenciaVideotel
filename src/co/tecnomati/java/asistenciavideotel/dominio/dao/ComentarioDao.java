@@ -18,4 +18,5 @@ public interface ComentarioDao {
   public void upDateComentario(Comentario a);
   public Comentario getComentario(int idComentario);
   public List<Comentario> listarComentario(int idSector);
+  public Comentario getComentario(int idSector,String motivo);
 }

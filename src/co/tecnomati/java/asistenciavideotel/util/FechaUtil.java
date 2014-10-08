@@ -346,26 +346,13 @@ public class FechaUtil {
      * @return la hora en formato hh:mm en String Ej : 20:30
      */
     public static String getHora_HHMM(Date fechaHoy) {
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(fechaHoy);
-//        String hora = String.valueOf(getHoraDelDia_24hs(c));
-//        String min = String.valueOf(getMin(c));
-//
-////           String hora= String.valueOf(fechaHoy.getHours()) ;
-////           String min= String.valueOf(fechaHoy.getMinutes());
-////           
-//        if (getHoraDelDia_24hs(c) <= 9) {
-//            hora = "0" + hora;
-//        }
-//        if (getMin(c) <= 9) {
-////               min= "0"+ fechaHoy.getMinutes();
-//            min = "0" + min;
-//        }
-//        String horaEnString = hora + ":" + min;
-//        
-//        return horaEnString;
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-        return df.format(fechaHoy);
+        String fecha = "";
+        if (fechaHoy!=null) {
+         SimpleDateFormat df = new SimpleDateFormat("HH:mm");    
+         fecha= df.format(fechaHoy);
+        }
+        
+        return fecha;
     }
 
     /**
@@ -489,4 +476,30 @@ public class FechaUtil {
         return cant;
         
     }
+    
+    
+   /**
+    * 
+    * @param d fecha
+    * @return la fecha del prier dia semanal dado una fecha
+    * El primier dia de la smena es LUNES. 
+    * EJ: si estamos en jueves 25..--> retorna Lunes 22
+    */
+    public static Date getPrimerDiaSemana(Date d ){
+        
+        // 1 es domingo
+        Calendar c = getCalendar(d);
+        int numDia = getDiaDeLaSemana(d);
+        if (numDia==1) {
+            // si es domingo
+            numDia=6;
+            c.add(Calendar.DAY_OF_MONTH, -numDia);
+        } else {
+            c.add(Calendar.DAY_OF_MONTH, -numDia+2);
+        }
+             
+        
+    
+        return c.getTime();
+}
 }

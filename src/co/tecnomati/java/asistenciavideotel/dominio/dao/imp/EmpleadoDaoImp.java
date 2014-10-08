@@ -107,7 +107,7 @@ public class EmpleadoDaoImp extends HibernateUtil implements EmpleadoDao {
         if (lista.size()!=0) {
             e = lista.get(0);
         }         
-        session.getTransaction().commit();
+//        session.getTransaction().commit();
         session.close();
         return e;
     }

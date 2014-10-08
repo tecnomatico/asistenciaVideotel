@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="asistencia_videotel"/>
-  <table-filter match-name="turno"/>
   <table-filter match-name="sector"/>
-  <table-filter match-name="empleado"/>
   <table-filter match-name="comentario"/>
-  <table-filter match-name="horario"/>
-  <table-filter match-name="diatrabajo"/>
   <table-filter match-name="marcacion"/>
-  <table-filter match-name="empresa"/>
   <table-filter match-name="asistencia"/>
+  <table-filter match-name="empleado"/>
+  <table-filter match-name="horario"/>
+  <table-filter match-name="turno"/>
+  <table-filter match-name="empresa"/>
+  <table-filter match-name="diatrabajo"/>
 </hibernate-reverse-engineering>

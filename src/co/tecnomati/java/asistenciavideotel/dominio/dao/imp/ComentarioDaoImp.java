@@ -83,4 +83,20 @@ public class ComentarioDaoImp extends HibernateUtil implements ComentarioDao{
         session.close();
         return a;    }
     
+    
+    @Override
+    public Comentario getComentario(int idSector,String motivo) {
+         Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        Comentario comentario =  (Comentario) session.createQuery("FROM Comentario c\n"
+//                + "join fetch dt.empleado as e\n"
+               + "where c.sid='" + idSector + "' and c.descripcion='"+motivo + "'"
+                        
+                ).uniqueResult();
+        session.close();
+        return comentario;
+   
+}
+    
 }

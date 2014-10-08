@@ -29,6 +29,8 @@ public class MiJoptionPane extends JOptionPane{
    public static final String IDENTIFICACION_ERRONEA = " SU IDENTIFICACION ES INCORRECTA, POR FAVOR INGRESE DE NUEVO";
    public static final String IDENTIFICACION_VACIA = " NO PUEDEN ESTAR VACIOS SUS DATOS DE  IDENTIDAD";
    public static final String CLAVES_DISTINTAS = " NO COINCIDE LAS CLAVES";
+   public static final String MARCACION_ENTRADA = " MARACACION DE ENTRADA";
+   public static final String MARCACION_SALIDA = " MARCACION DE SALIDA";
    
    
    
@@ -82,4 +84,9 @@ public class MiJoptionPane extends JOptionPane{
     public void mensajeErrorCampoVacio(Component padre, String objetoVaciio) {
         JOptionPane.showMessageDialog(padre,MENSAJE_VACIO1+objetoVaciio +MENSAJE_VACIO2,Constantes.TITLE_APP,JOptionPane.WARNING_MESSAGE);
     }
+    
+    
+    public static void MarcacionEmpleado(Component padre ,String e,  String tipoMarcacion,String hora){
+        JOptionPane.showMessageDialog(padre,e + "\n"+"HORA DE MARCACION: "+ hora+" HS",tipoMarcacion,JOptionPane.INFORMATION_MESSAGE);
+    } 
 }

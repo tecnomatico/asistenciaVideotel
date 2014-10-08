@@ -80,9 +80,9 @@ public class TurnoDaoImp extends HibernateUtil implements TurnoDao {
     }
 
     /**
-     * 
+     *
      * @param idEmpleado
-     * @return  lista de turno con sus foraneas ordenado por dia y 
+     * @return lista de turno con sus foraneas ordenado por dia y
      */
     @Override
     public List<Turno> listarTurno(int idEmpleado) {
@@ -100,8 +100,7 @@ public class TurnoDaoImp extends HibernateUtil implements TurnoDao {
         session.close();
         return turnos;
     }
-    
-    
+
     @Override
     public List<Turno> listarTurno(int idEmpleado, int idDiaTrabajo) {
         Session session = HibernateUtil.getSession();
@@ -110,30 +109,32 @@ public class TurnoDaoImp extends HibernateUtil implements TurnoDao {
         Criteria criteria = session.createCriteria(Turno.class);
 
         ArrayList<Turno> turnos = (ArrayList<Turno>) session.createQuery("FROM Turno t\n"
-//                + "join fetch t.diatrabajo  as dt\n"
-//                + "join fetch dt.empleado as e\n"
+                //                + "join fetch t.diatrabajo  as dt\n"
+                //                + "join fetch dt.empleado as e\n"
                 + "join fetch t.horario as h\n"
                 + "where t.diatrabajo.empleado.eid='" + idEmpleado + "' and t.diatrabajo.dtid='" + idDiaTrabajo + "'"
                 + "order by t.horario.entrada asc  \n").list();
         session.close();
         return turnos;
     }
+
     @Override
-    public Turno getTurno(int idEmpleado, int idDiaTrabajo,byte numTurno) {
+    public Turno getTurno(int idEmpleado, int idDiaTrabajo, byte numTurno) {
         Session session = HibernateUtil.getSession();
 
         session.beginTransaction();
         Criteria criteria = session.createCriteria(Turno.class);
 
         Turno turnos = (Turno) session.createQuery("FROM Turno t\n"
-//                + "join fetch t.diatrabajo  as dt\n"
-//                + "join fetch dt.empleado as e\n"
+                //                + "join fetch t.diatrabajo  as dt\n"
+                //                + "join fetch dt.empleado as e\n"
                 + "join fetch t.horario as h\n"
                 + "where t.diatrabajo.empleado.eid='" + idEmpleado + "' and t.diatrabajo.dtid='" + idDiaTrabajo + "'"
-                + "order by t.horario.entrada asc  \n").list().get(numTurno-1);
-        session.close();
+                + "order by t.horario.entrada asc  \n").list().get(numTurno - 1);
+
+
+
+        
         return turnos;
     }
-
-   
 }

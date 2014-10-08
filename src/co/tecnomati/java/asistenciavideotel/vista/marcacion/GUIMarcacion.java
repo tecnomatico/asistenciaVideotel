@@ -24,6 +24,7 @@ import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
 import co.tecnomati.java.asistenciavideotel.util.camara.JmfVideoUtil;
 import co.tecnomati.java.asistenciavideotel.util.camara.miPlayer;
 import co.tecnomati.java.asistenciavideotel.vista.administrador.GUILogin;
+import co.tecnomati.java.asistenciavideotel.vista.asistencia.GUIGestorAsistencia;
 import co.tecnomati.java.asistenciavideotel.vista.comentario.GUIGestorComentario;
 import co.tecnomati.java.asistenciavideotel.vista.turno.GUIDiaTrabajo;
 import co.tecnomati.java.asistenciavideotel.vista.empleado.GUIEmpleado;
@@ -37,8 +38,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.Player;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,12 +53,27 @@ import javax.swing.JPanel;
  */
 public class GUIMarcacion extends javax.swing.JFrame {
 
-    private static final int ALTA = 0;
-    private static final int MODIFICAR = 1;
-    private static final byte MARCACION_ENTRADA = 1;
-    private static final byte MARCACION_SALIDA = 0;
+    public static final int ALTA = 0;
+    public static final int MODIFICAR = 1;
+    public static final byte MARCACION_ENTRADA = 1;
+    public static final byte MARCACION_SALIDA = 0;
+    public static final byte EXTRA_MARCACION_ADICIONAL_EN_EL_DIA = 2;
+    public static final byte EXTRA_MARCACION_DIA_NO_REGISTRADA = 3;
+    public static final byte ETI_MARCACION_INCOMPLETA = 0;
+    public static final byte ETI_MARCACION_NORMAL = 1;
+    public static final byte ETI_MARCACION_EXTRA = 2;
+    public static final byte ETI_MARCACION_AUSENTE = 3;
+    public static final byte ETI_EXTRA_MARCACION = 0;
+    public static final byte ETI_EXTRA_DIA = 1;
+    // tipo de motibos de horas extra
+    public static String MOTIVO_HS_EXTRA = "HS EXTRA";
+    public static String MOTIVO_TARDANZA = "TARDANZA";
     JmfVideoUtil b = new JmfVideoUtil();
     private Player p1;
+    int opc;
+    int opcMarcacion;
+    int indexMotivo;
+    boolean extraM;
     // 
     Date fechaHoy;
     Empleado empleado;
@@ -121,6 +140,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
         jMenu4.setText("jMenu4");
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 600));
         setResizable(false);
 
@@ -189,7 +209,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 24, Short.MAX_VALUE)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblNameSistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -225,7 +245,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
             panelPadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPadreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                .addComponent(panelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelPadreLayout.setVerticalGroup(
@@ -320,6 +340,11 @@ public class GUIMarcacion extends javax.swing.JFrame {
         jMenu1.setText("Asistencia");
 
         jMenuItem2.setText("GestorAsistencia");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         mnuItmComentarios.setText("Gestor de Motivos Hs Extra");
@@ -425,7 +450,6 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 // es valido el identificador
                 registrarMarcacion();
 
-
             }
 
             limpiarDatos();
@@ -439,6 +463,12 @@ public class GUIMarcacion extends javax.swing.JFrame {
     private void mnuItmComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItmComentariosActionPerformed
         new GUIGestorComentario(this, true);
     }//GEN-LAST:event_mnuItmComentariosActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GUIGestorAsistencia guiGestorAsistencia = new GUIGestorAsistencia(this, true);
+
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -612,6 +642,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
         if (isExistDiaTrabajo()) {
 
+
             // si trabaja en ese dia
             if (!isExistAsistenciaHoy()) {
                 System.err.println("No existe  Asistenica de hoy");
@@ -619,15 +650,25 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 cargarOactualizarAsistencia(ALTA);
 
             } else {
+//                System.err.println("n turno " + diaTrabajo.getNturno());
+//                System.err.println("n turno " + asistencia.getNturno());
+//                System.err.println("mcontador" + asistencia.getMcontador());
+//                System.err.println("mcontador" + MARCACION_ENTRADA);
+//                System.err.println("boolean " + ((asistencia.getNturno() == diaTrabajo.getNturno()) && (asistencia.getMcontador() == MARCACION_ENTRADA)));
+//                System.err.println("b1" + (asistencia.getMcontador() == MARCACION_ENTRADA));
+//                System.err.println("b2" + (asistencia.getNturno() == diaTrabajo.getNturno()));
                 // ya tiene su asistencia del dia entonces actualizo las marcaciones 
-                if (asistencia.getNturno() <= diaTrabajo.getNturno()) {
+                if ((asistencia.getNturno() < diaTrabajo.getNturno()) || ((asistencia.getNturno().equals(diaTrabajo.getNturno())) && (asistencia.getMcontador() == MARCACION_ENTRADA))) {
+                    System.err.println("");
                     // numero de marcaciones de asistencia diaria es menor que la cantidad de turnos diarios 
                     System.err.println("Existe Asistenica de hoy");
                     cargarOactualizarAsistencia(MODIFICAR);
                 } else {
                     // empleado registra una marcacion que no le corresponde en su dia
                     System.err.println("No se marca xq ya marco todas sus turnos diarios.");
-                    mostrarVenanaHSExtra(empleado.getSector().getSid());
+                    extraM=true;
+                    cargarOactualizarAsistencia(EXTRA_MARCACION_ADICIONAL_EN_EL_DIA);
+                    
                 }
 
 
@@ -635,7 +676,10 @@ public class GUIMarcacion extends javax.swing.JFrame {
         } else {
             // no tiene asignado ese dia ,, se supone como extra.
             System.err.println("No tiene asignado un horario para este dia");
-             mostrarVenanaHSExtra(empleado.getSector().getSid());
+            cargarOactualizarAsistencia(EXTRA_MARCACION_DIA_NO_REGISTRADA);
+           
+
+
         }
 
 
@@ -669,7 +713,6 @@ public class GUIMarcacion extends javax.swing.JFrame {
         if (asistencia != null) {
 
             b = true;
-            Log.write("ASistencia: El empleado ya tiene Asitencia hoy" + diaTrabajo.toString());
             System.err.println(" existe una asistencia  " + asistencia.toString());
         }
         return b;
@@ -683,6 +726,11 @@ public class GUIMarcacion extends javax.swing.JFrame {
      */
     private void cargarOactualizarAsistencia(int op) {
         String dia = "";
+
+        // almaceno que cual es la operacion  qu va hacer el usuario
+        this.opc = op;
+
+
         switch (op) {
 
             case ALTA:
@@ -692,25 +740,22 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
                 asistencia.setNturno((byte) 1); // cantidad de marcaciones en el dia
                 asistencia.setMcontador((byte) 1); // 1 si es entrada .0 salida
-
-                new AsistenciaDaoImp().addAsistencia(asistencia);
-
+                opcMarcacion=ALTA;
                 cargarOactualizarMarcacion(ALTA);
-                System.err.println("Alta asistencia OK");
 
                 break;
             case MODIFICAR:
                 // marcar salida
-                System.err.println("a" + asistencia.getMcontador() + MARCACION_SALIDA);
-                if (asistencia.getMcontador() == MARCACION_SALIDA) {
+                System.err.println("asistenica contador " + asistencia.getMcontador() + MARCACION_SALIDA);
+                if (isMarcacionEntrda(asistencia)) {
                     // marca una nueva maracion en la asistencia
-
+                    System.err.println("nueva marcacion en el dia de dd");
                     byte nturno = (byte) (asistencia.getNturno() + 1);
                     asistencia.setNturno(nturno);
                     asistencia.setMcontador(MARCACION_ENTRADA);
-                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
 
                     //MARCACION
+                    opcMarcacion=ALTA;
                     cargarOactualizarMarcacion(ALTA);
                     System.err.println("nueva marcacion en el dia");
                 } else {
@@ -718,12 +763,58 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
                     System.err.println("marcacion de salida ");
                     asistencia.setMcontador(MARCACION_SALIDA);
-                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
-
                     //MARCACION
+                    opcMarcacion=MODIFICAR;
                     cargarOactualizarMarcacion(MODIFICAR);
                 }
-                System.err.println("Modificacion  asistencia OK");
+                break;
+
+            case EXTRA_MARCACION_ADICIONAL_EN_EL_DIA:
+                
+                // marcar 
+                System.err.println("Y A TIENE LAS MARCACIONES DIARIAS INGRESAR UNA NUEVA EN EL MISMO DIA");
+                // mostrar la venana de opciones 
+                if (asistencia.getMcontador() == MARCACION_SALIDA) {
+
+                    if (isIngresoOpcionEnVenanaMotivos(MOTIVO_HS_EXTRA, empleado.getSector().getSid())) {
+                        // marca una nueva maracion en la asistencia
+                        System.err.println("nueva marcacion en el dia de dd");
+                        byte nturno = (byte) (asistencia.getNturno() + 1);
+                        asistencia.setNturno(nturno);
+                        asistencia.setMcontador(MARCACION_ENTRADA);
+
+                        //MARCACION
+                        cargarOactualizarMarcacionExtra(ALTA);
+
+                        System.err.println("nueva marcacion en el dia");
+                    }
+                } else {
+                    //marca salida de una marcacion existente 
+                    System.err.println("marcacion de salida ");
+                    asistencia.setMcontador(MARCACION_SALIDA);
+                    //MARCACION
+                    cargarOactualizarMarcacionExtra(MODIFICAR);
+
+                }
+                break;
+
+            case EXTRA_MARCACION_DIA_NO_REGISTRADA:
+                // marcar salida
+                System.err.println("INGRESA UNA MARCACION EN EL DIA QUE NO LE CORRESPONDE TRABJAR");
+
+
+                if (!isExistAsistenciaHoy()) {
+                    System.err.println("alta extra dia");
+                     extraM=false;
+                    cargaOActualizarAsistenciaExtra(ALTA);
+                    
+                } else {
+                    System.err.println("modificar extra dia");
+                     extraM=true;
+                    cargaOActualizarAsistenciaExtra(MODIFICAR);
+                    
+                }
+
                 break;
 
 
@@ -734,6 +825,21 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
 
 
+    }
+
+    /**
+     *
+     * @param a asistenica
+     * @return true si la asistenicia que se va a cargar es una marcacion de
+     * ENTRADA
+     *
+     */
+    public boolean isMarcacionEntrda(Asistencia a) {
+        boolean b = false;
+        if (a.getMcontador() == MARCACION_SALIDA) {
+            b = true;
+        }
+        return b;
     }
 
     /**
@@ -752,13 +858,13 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 marcacion.setEntrada(fechaHoy);
                 marcacion.setEstado(false);
                 // calculo de la tolerancias
-
+                marcacion.setEtimarcacion(ETI_MARCACION_INCOMPLETA);
                 // obtengo el turno para la marcacion actual.
 
                 cargarYControlarMinutosTolerancias(MARCACION_ENTRADA);
+                // carga el motivo de la tardanza o extra
+                
 
-                new MarcacionDaoImp().addMarcacion(marcacion);
-                System.err.println("Alta   Marcacion OK");
                 break;
 
             case MODIFICAR:
@@ -768,15 +874,14 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 marcacion.setSalida(fechaHoy);
                 marcacion.setEstado(true);// indico q se completo la marcacion entrada-salida
                 // caluclo de las tolerancias
+                marcacion.setEtimarcacion(ETI_MARCACION_NORMAL);
                 cargarYControlarMinutosTolerancias(MARCACION_SALIDA);
-                new MarcacionDaoImp().upDateMarcacion(marcacion);
-                System.err.println("Modificacion  Marcacion OK");
 
+                
 
                 break;
         }
 
-        System.err.println("marcacion " + marcacion.toString());
 
 
     }
@@ -794,6 +899,7 @@ public class GUIMarcacion extends javax.swing.JFrame {
         turno = null;
         diaTrabajo = null;
         marcacion = null;
+        
     }
 
     /**
@@ -814,7 +920,18 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 if (minTolentrada > Integer.parseInt(FechaUtil.getMM(turno.getEtolerancia()))) {
                     System.err.println("tardanza en la entrada");
                     // registrar el motivo de la tardanza
-                    mostrarVenanaHSExtra(empleado.getSector().getSid());
+                    if (isIngresoOpcionEnVenanaMotivos(MOTIVO_TARDANZA, empleado.getSector().getSid())) {
+                        // guardar asistencia y marcacion en la bd.
+                        cargarMotivoAMarcacion(opcMarcacion);
+                        almacenarEnBDD(this.opc);
+                        
+                    } else {
+                        System.err.println("concelo la op");
+                    }
+
+                } else {
+                    System.err.println("paso con normalidad el control de tolerancia");
+                    almacenarEnBDD(this.opc);
                 }
 
                 break;
@@ -826,12 +943,163 @@ public class GUIMarcacion extends javax.swing.JFrame {
                 if (minToleSalida > Integer.parseInt(FechaUtil.getMM(turno.getStolerancia()))) {
                     System.err.println("tardanza en la Salida");
                     // registrar el motivo de la tardanza
-                     mostrarVenanaHSExtra(empleado.getSector().getSid());
-                    
+                    if (isIngresoOpcionEnVenanaMotivos(MOTIVO_HS_EXTRA, empleado.getSector().getSid())) {
+                        // guardar asistencia y marcacion en la bd.
+                        cargarMotivoAMarcacion(opcMarcacion);
+                        almacenarEnBDD(this.opc);
+                    } else {
+                        System.err.println("concelo la op");
+                    }
+
+                } else {
+                    System.err.println("paso con normalidad el control de tolerancia");
+                    almacenarEnBDD(this.opc);
                 }
                 break;
 
         }
+    }
+
+    /**
+     * Captura una foto de la camara y lo guarda con extension jpeg. lugar del
+     * archivo es en la carpeta dist
+     */
+    private void capturarYguardarFotoEmpleado() {
+        //saco foto 
+        b.capturarImagen();
+        // detengo la camara
+        b.getPlayer().stop();
+        //1-guardo en fichero :crea img.jpeg donde se encuentra el .jar o sea en la carpeta dist 
+        File file = new File(new File("img.jpeg").getAbsolutePath());
+        miPlayer.guardaImagenEnFichero(b.getImagen(), file);
+
+        try {
+            // Detengo la aplicacion para que el usuario vea su foto durante 2 segundos y luego reinicio la camara
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GUIMarcacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // reanudo la camara
+        b.getPlayer().start();
+    }
+
+    /**
+     *
+     * @return verdadero si el empleado ingreso o salio tarde
+     */
+    private boolean isllegoTardeEmpleado() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void cargarMotivoAMarcacion(int op) {
+        if (op == ALTA) {
+            marcacion.setEtolerancia((byte) indexMotivo);
+            System.err.println("entro alta motivo marcacion");
+        } else {
+            marcacion.setStolerancia((byte) indexMotivo);
+
+        }
+    }
+
+    private void cargarOactualizarMarcacionExtra(int op) {
+        switch (op) {
+
+            case ALTA:
+                // agregar una marcacion nueva
+                marcacion = new Marcacion();
+                marcacion.setAsistencia(asistencia);
+                marcacion.setEntrada(fechaHoy);
+                marcacion.setEstado(false);
+                 cargarMotivoAMarcacion(op);
+                //marcacion extra
+                marcacion.setEtimarcacion(ETI_MARCACION_EXTRA);
+                // tipo de extra
+                if (!isExistDiaTrabajo()) {
+                    // marcacion en un dia que no le corresponde
+                    marcacion.setEtiextra(ETI_EXTRA_DIA);
+                } else {
+                    // marcacion adicional a su dia
+                    marcacion.setEtiextra(ETI_EXTRA_MARCACION);
+                }
+
+
+                // NO SE REALIZA CONTROLES DE TOLERANCIAS PARA LAS EXTRAS
+               // actulizar asi no crea asistencia
+                // debo preguntar si es extra por el mismo dia o de otro dia
+                if (extraM) {
+                    // mismo dia
+                     almacenarEnBDD(MODIFICAR);
+                } else {
+                    //otro dia
+                     almacenarEnBDD(ALTA);
+                }
+               
+
+
+                break;
+
+            case MODIFICAR:
+
+                // marco la salida de la marcacion existente
+                marcacion = new MarcacionDaoImp().getUtlimaMarcacionIncompleta(asistencia.getAid());
+                marcacion.setSalida(fechaHoy);
+                marcacion.setEstado(true);// indico q se completo la marcacion entrada-salida
+                cargarMotivoAMarcacion(op);
+                almacenarEnBDD(MODIFICAR);
+
+
+                break;
+        }
+
+    }
+
+    /**
+     * gestiona la asistencias que se cargan en un dia que no asignado al
+     * empleado
+     */
+    private void cargaOActualizarAsistenciaExtra(int opc) {
+        switch (opc) {
+            case ALTA:
+                // creo una asistencia
+                asistencia = new Asistencia();
+                asistencia.setEmpleado(empleado);
+                asistencia.setFecha(fechaHoy);
+                asistencia.setNturno((byte) 1); // cantidad de marcaciones en el dia
+                asistencia.setMcontador((byte) 1); // 1 si es entrada .0 salida
+
+                cargarOactualizarMarcacionExtra(ALTA);
+
+
+                break;
+
+            case MODIFICAR:
+                //modifico la asistencia
+                if (asistencia.getMcontador() == MARCACION_SALIDA) {
+                    // marca una nueva maracion en la asistencia
+                    System.err.println("nueva marcacion en el dia de dd");
+                    byte nturno = (byte) (asistencia.getNturno() + 1);
+                    asistencia.setNturno(nturno);
+                    asistencia.setMcontador(MARCACION_ENTRADA);
+
+                    //MARCACION
+                    cargarOactualizarMarcacionExtra(ALTA);
+                    System.err.println("nueva marcacion en el dia");
+                } else {
+                    //marca salida de una marcacion existente 
+
+                    System.err.println("marcacion de salida ");
+                    asistencia.setMcontador(MARCACION_SALIDA);
+                    //MARCACION
+                    cargarOactualizarMarcacionExtra(MODIFICAR);
+                }
+                break;
+        }
+
+
+
+
+
+
     }
 
     private class eventos implements WindowListener, ActionListener {
@@ -885,39 +1153,94 @@ public class GUIMarcacion extends javax.swing.JFrame {
 
         }
     }
-    
-    public void  mostrarVenanaHSExtra(int idSector){
-        //
-       
+
+    /**
+     *
+     * @param idSector muestra una ventana donde el empleado ingresa el motivo
+     */
+    public boolean isIngresoOpcionEnVenanaMotivos(String tipomotivo, int idSector) {
+        boolean b = false;
+
         List<Comentario> lista = new ComentarioDaoImp().listarComentario(idSector);
-        String[] listcomentarios= new String[lista.size()+1];
-        int i=1;
-        listcomentarios[0]="Seleccione";
+        String[] listcomentarios = new String[lista.size() + 1];
+        int i = 1;
+        listcomentarios[0] = "Seleccione";
         for (Comentario comentario : lista) {
-            listcomentarios[i]= comentario.getDescripcion();
+            listcomentarios[i] = comentario.getDescripcion();
             i++;
         }
-         
-       String motivo = (String) JOptionPane.showInputDialog(this, "SELECCIONE EL MOTIVO", "HS EXTRA", JOptionPane.INFORMATION_MESSAGE, null, listcomentarios,listcomentarios[0] );
-       
-        System.err.println("motivo " +motivo); 
-        
-        if (motivo==null) {
+
+        String motivo = (String) JOptionPane.showInputDialog(this, "SELECCIONE EL MOTIVO", tipomotivo, JOptionPane.INFORMATION_MESSAGE, null, listcomentarios, listcomentarios[0]);
+
+
+        if (motivo == null) {
             // cancelo operacion
             MiJoptionPane.mensajeError(this, "NO SE REGISTRO SU ASISTENCIA ");
-        } else if (motivo=="Seleccione") {
+        } else if (motivo == "Seleccione") {
             // no seleccioo el motivo
             MiJoptionPane.mensajeAdvertencia(this, "SELECCIONE UN MOTIVO PARA COMPLETAR SU REGISTRO DE ASISTENCIA");
-            mostrarVenanaHSExtra(idSector);
+            isIngresoOpcionEnVenanaMotivos(tipomotivo, idSector);
         } else {
             // ingreso motivo 
-            
-            // actualizar la marcacion
+            b = true;
+            indexMotivo = new ComentarioDaoImp().getComentario(idSector, motivo).getCid();
+            System.err.println("motivo de la hora extra"+motivo+" "+indexMotivo);
         }
-{
-        }
-    
+
+        return b;
     }
-    
-    
+
+    /**
+     *
+     * @param opc tipo de maracion que se realizara ALTA MODIFICAR EXTRA_M
+     * EXTRA_M almacena
+     */
+    public void almacenarEnBDD(int opc) {
+        switch (opc) {
+
+            case ALTA:
+                new AsistenciaDaoImp().addAsistencia(asistencia);
+                System.err.println("Alta asistencia OK");
+                new MarcacionDaoImp().addMarcacion(marcacion);
+                System.err.println("Alta   Marcacion OK");
+                capturarYguardarFotoEmpleado();
+                MiJoptionPane.MarcacionEmpleado(this, empleado.getApellido() + " " + empleado.getNombre(), MiJoptionPane.MARCACION_ENTRADA, FechaUtil.getHora_HHMM(fechaHoy));
+
+                break;
+
+            case MODIFICAR:
+                if (asistencia.getMcontador() == MARCACION_SALIDA) {
+                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
+                    System.err.println("Modificacion  asistencia OK");
+                    //MARCACION
+                    new MarcacionDaoImp().upDateMarcacion(marcacion);
+                    System.err.println("Modificacion   Marcacion OK");
+                    capturarYguardarFotoEmpleado();
+                    MiJoptionPane.MarcacionEmpleado(this, empleado.getApellido() + " " + empleado.getNombre(), MiJoptionPane.MARCACION_SALIDA, FechaUtil.getHora_HHMM(fechaHoy));
+
+                } else {
+                    new AsistenciaDaoImp().upDateAsistencia(asistencia);
+                    System.err.println("Modificacion  asistencia OK");
+                    //MARCACION
+                    new MarcacionDaoImp().addMarcacion(marcacion);
+                    System.err.println("alta  Marcacion OK");
+                    capturarYguardarFotoEmpleado();
+                    MiJoptionPane.MarcacionEmpleado(this, empleado.getApellido() + " " + empleado.getNombre(), MiJoptionPane.MARCACION_ENTRADA, FechaUtil.getHora_HHMM(fechaHoy));
+
+                }
+                break;
+
+            case EXTRA_MARCACION_ADICIONAL_EN_EL_DIA:
+
+                break;
+
+            case EXTRA_MARCACION_DIA_NO_REGISTRADA:
+                break;
+
+
+        }
+        // guardar la foto
+
+
+    }
 }

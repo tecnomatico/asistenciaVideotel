@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 26/09/2014 17:58:11 by Hibernate Tools 3.2.1.GA -->
+<!-- Generated 07/10/2014 15:05:02 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="co.tecnomati.java.asistenciavideotel.dominio.Marcacion" table="marcacion" catalog="asistencia_videotel">
         <id name="maid" type="java.lang.Integer">
@@ -32,7 +32,7 @@
         <property name="estado" type="java.lang.Boolean">
             <column name="ESTADO" />
         </property>
-        <property name="etimarcacion" type="java.lang.Boolean">
+        <property name="etimarcacion" type="java.lang.Byte">
             <column name="ETIMARCACION" />
         </property>
         <property name="mintardanzae" type="java.lang.Short">
@@ -41,8 +41,8 @@
         <property name="mintardanzas" type="java.lang.Short">
             <column name="MINTARDANZAS" />
         </property>
-        <property name="etiextram" type="java.lang.Boolean">
-            <column name="ETIEXTRAM" />
+        <property name="etiextra" type="java.lang.Byte">
+            <column name="ETIEXTRA" />
         </property>
         <property name="etiextrad" type="java.lang.Boolean">
             <column name="ETIEXTRAD" />

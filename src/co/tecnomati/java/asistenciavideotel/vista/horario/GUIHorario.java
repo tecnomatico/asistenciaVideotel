@@ -396,12 +396,13 @@ public class GUIHorario extends javax.swing.JDialog {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (TablaUtil.isSeleccioFila(tblHorario)) {
             horario = getHorarioFila();
-            modeloHorario.removeElement(horario);
+            
 
             int opc = new MiJoptionPane().confiramacionMensajeEliminar(this, Constantes.TXT_HORARIO, horario.getEntrada() + " " + horario.getSalida());
             if (opc == JOptionPane.YES_OPTION) {
                 new HorarioDaoImp().deleteHorario(horario);
                 new MiJoptionPane().mensajeInformacionAtualizacionOK(null);
+                modeloHorario.removeElement(horario);
                 setEliminado(true);
                 //  this.dispose();
                 setEnableBotonNuevo(true);

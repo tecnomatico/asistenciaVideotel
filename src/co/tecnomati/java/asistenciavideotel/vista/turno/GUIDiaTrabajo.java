@@ -65,9 +65,9 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
 
         this.empleado = empleado;
         lblNombreEmpleado.setText(empleado.getNombre() + " " + empleado.getApellido());
-      //  inicializarTabla();
+        //  inicializarTabla();
         new CargaTabla().start();
-        
+
         this.setTitle(Constantes.TITLE_NUEVO_TURNO);
         this.setLocationRelativeTo(this);
         this.setVisible(true);
@@ -535,16 +535,39 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
         setEnabledComponentes(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        //  int opc = JOptionPane.showConfirmDialog(null,"Esta seguro de Eliminar el Concepto: "+turno.getDescripcion(), "ELIMINAR CONCEPTO", JOptionPane.YES_NO_OPTION);
-        int opc = new MiJoptionPane().confiramacionMensajeEliminar(this, Constantes.TXT_TURNO, turno.getTid() + "");
-        if (opc == JOptionPane.YES_OPTION) {
-            new TurnoDaoImp().deleteTurno(turno);
-            new MiJoptionPane().mensajeInformacionAtualizacionOK(null);
-            setEliminado(true);
-            this.dispose();
+    private void actualizarDiaTrabajo() {
 
-            // configuarar botones luego de eliminar
+        Diatrabajo dt = turno.getDiatrabajo();
+        if (dt.getNturno() == 1) {
+            new DiaTrabajoDaoImp().deleteDiatrabajo(dt);
+
+        } else {
+            byte numTurno = (byte) (turno.getDiatrabajo().getNturno() - 1);
+            dt.setNturno(numTurno);
+            new DiaTrabajoDaoImp().upDateDiatrabajo(dt);
+        }
+
+
+    }
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        if (TablaUtil.isSeleccioFila(tblDiaTrabajo)) {
+            turno = getTurnoFila();
+
+            int opc = new MiJoptionPane().confiramacionMensajeEliminar(this, Constantes.TXT_TURNO, "Desea elmiminar el turno Seleccionado");
+            if (opc == JOptionPane.YES_OPTION) {
+                new TurnoDaoImp().deleteTurno(turno);
+                actualizarDiaTrabajo();
+                new MiJoptionPane().mensajeInformacionAtualizacionOK(this);
+                setEliminado(true);
+                modeloTurno.removeElement(turno);
+                //  this.dispose();
+                setEnableBotonNuevo(true);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un Horario de la tabla");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -573,7 +596,7 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
 
 //                    String dia = new FechaUtil().getDiaDeLaSemana_String(index_dia);
                     System.err.println("dia elegido ");
-                    
+
                     Diatrabajo dt = new Diatrabajo();
                     // agrego o actualizo dia de Trabajo
                     if (new DiaTrabajoDaoImp().getDiatrabajo_XDia(index_dia, empleado.getEid()) == null) {
@@ -585,18 +608,18 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
                         System.err.println("se creo un dia de trabjo" + dt.getDtid());
                     } else {
                         // hay que arreglar esto
-                        dt= new DiaTrabajoDaoImp().getDiatrabajo_XDia(index_dia, empleado.getEid());
-                        dt.setNturno((byte)(dt.getNturno() + 1));
+                        dt = new DiaTrabajoDaoImp().getDiatrabajo_XDia(index_dia, empleado.getEid());
+                        dt.setNturno((byte) (dt.getNturno() + 1));
                         new DiaTrabajoDaoImp().upDateDiatrabajo(dt);
 
                     }
 
                     turno.setDiatrabajo(dt);
                     new TurnoDaoImp().addTurno(turno);
-                   
+
                 }
-                 new CargaTabla().start();
-                 MiJoptionPane.mensajeInformacionAltaOK(this);
+                new CargaTabla().start();
+                MiJoptionPane.mensajeInformacionAltaOK(this);
 //                    modeloTurno.addElement(turno);
 
             }
@@ -612,7 +635,6 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
 //                 
 //            }
 
-        } else {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -646,7 +668,7 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
             // selecciono una fila
             setModificar(true);
             setEnabledComponentes(true);
-            //        horario = getHorarioFila();
+            //        horario = getTurnoFila();
             setEnableBotonEditar(false);
             //        setDatos();
 
@@ -744,6 +766,16 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
     private javax.swing.JLabel lblToleranciaSalida;
     private javax.swing.JTable tblDiaTrabajo;
     // End of variables declaration//GEN-END:variables
+
+    public Turno getTurnoFila() {
+        Turno turno = new Turno();
+        numeroSeleccion = sorter.convertRowIndexToModel(tblDiaTrabajo.getSelectedRow());
+
+        turno = modeloTurno.get(numeroSeleccion);
+        System.err.println("turno elegido " + turno.toString());
+        return turno;
+
+    }
 
     private void setDatos(Turno turno) {
         //  corregir esto!!!!!!!!!!!
@@ -991,7 +1023,11 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
                 listas_dias.add(Calendar.SATURDAY);
 
             }
-             
+            if (chkDomingo.isSelected()) {
+                listas_dias.add(Calendar.SUNDAY);
+
+            }
+
         } else {
             // obtengo el dia del combo
             int indexDia = cmbDia.getSelectedIndex();
@@ -1025,13 +1061,12 @@ public class GUIDiaTrabajo extends javax.swing.JDialog {
 
         return b;
     }
-    
-    
-      private class CargaTabla extends Thread{
-        
+
+    private class CargaTabla extends Thread {
+
         @Override
-        public void  run(){
+        public void run() {
             inicializarTabla();
         }
-      }   
+    }
 }

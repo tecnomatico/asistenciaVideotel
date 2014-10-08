@@ -9,6 +9,7 @@ import co.tecnomati.java.asistenciavideotel.dominio.Empleado;
 import co.tecnomati.java.asistenciavideotel.util.MiJoptionPane;
 import co.tecnomati.java.asistenciavideotel.util.TablaUtil;
 import co.tecnomati.java.asistenciavideotel.util.modeloTabla.ModeloEmpleado;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -22,10 +23,29 @@ public class GUIGestorEmpleado extends javax.swing.JDialog {
     ModeloEmpleado modeloEmpleado;
     boolean agregado = false;
     private TableRowSorter sorter;
+
+  
+    boolean paraSeleccionar;
+
+   
+    
+    
     
     public GUIGestorEmpleado(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle(Constantes.TITLE_GESTOR_EMPLEADO);
+
+        inicializarTabla();
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
+    }
+    public GUIGestorEmpleado(java.awt.Frame parent, boolean modal,boolean paraSeleccionar) {
+        super(parent, modal);
+        initComponents();
+        this.paraSeleccionar= paraSeleccionar;
         this.setTitle(Constantes.TITLE_GESTOR_EMPLEADO);
 
         inicializarTabla();
@@ -97,6 +117,16 @@ public class GUIGestorEmpleado extends javax.swing.JDialog {
                 "id", "DNI", "Apellido", "Nombre", "Telefono", "Sector"
             }
         ));
+        tblEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmpleadoMouseClicked(evt);
+            }
+        });
+        tblEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblEmpleadoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEmpleado);
 
         btnCancelar.setText("Cancelar");
@@ -208,6 +238,25 @@ public class GUIGestorEmpleado extends javax.swing.JDialog {
         TablaUtil.filtro(tblEmpleado, sorter, txtFiltro);     
     }//GEN-LAST:event_txtFiltroKeyPressed
 
+    private void tblEmpleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadoKeyPressed
+       if (paraSeleccionar) {
+        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER ) {
+            getEmpleadoDeJtable();
+        }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_tblEmpleadoKeyPressed
+
+    private void tblEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadoMouseClicked
+        if (paraSeleccionar) {
+
+            if (evt.getClickCount() == 2) {
+//             hizo doble clik con el mouse 
+                getEmpleadoDeJtable();
+            }
+        }
+
+    }//GEN-LAST:event_tblEmpleadoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -260,4 +309,36 @@ public class GUIGestorEmpleado extends javax.swing.JDialog {
     private javax.swing.JTable tblEmpleado;
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
+
+
+  public Empleado getEmpleado() {
+        return empleado;
+    }
+
+   public boolean isAgregado() {
+        return agregado;
+    }
+
+    public void setAgregado(boolean agregado) {
+        this.agregado = agregado;
+    }
+    
+    
+  /**
+   * obtiene el emplead seleccionado del la tabla
+   */
+    public void getEmpleadoDeJtable(){
+        if (tblEmpleado.getSelectedRow() != -1) {
+                    numeroSeleccion = sorter.convertRowIndexToModel(tblEmpleado.getSelectedRow());
+                    empleado = modeloEmpleado.get(numeroSeleccion);
+
+                    //indico qe si se selecciono
+                    setAgregado(true);
+
+                    // cierro la ventna
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Seleccione una fila");
+                }
+}
 }
